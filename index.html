@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-US">
    <head>
-      <title> 493 Artist Search</title>
+      <title> Step Artist</title>
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
       <!-- Optional theme -->
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -9,89 +9,34 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
       <script src="https://cdn.jsdelivr.net/npm/vue"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+      <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+      <link rel="stylesheet" type="text/css" href="./style.css" />
+      <script src="./script.js"></script>
       </title>
    </head>
    <style>
-
-      h5{
-      padding-bottom: 5px;
-      padding-top: 3px;
-      }
-      .genre{
-      border:solid 2px;
-      border-radius: 3px;
-      margin:5px;
-      white-space: nowrap;
-      background-color:#ccc;
-      padding:2px;
-      }
       /*img {
       height: 200px;
       }*/
    </style>
    <body >
      <div id='app'>
-      <nav class="navbar navbar-default">
-         <div class="container">
-            <div class="navbar-header">
-               <h3>493 Artist Search</h3>
-            </div>
-         </div>
-      </nav>
-      <div class = "container">
-         <div class = "row searchbar" >
-            <div class = "col-lg-12 col-md-12 col-sm-12">
-               <h4>Enter the name of the artist and enter : </h4>
-               <input type="text">
-            </div>
-         </div>
-
-         <div class = "col-lg-12 col-md-12 col-sm-12">
-
-           <div>
-              <button class = "btn btn-success" style="margin:2px;">ALL</button>
-           </div>
-           <h4>
-              List of results
-           </h4>
-         </div>
-
-       <div>
-         <div class = "col-lg-6 col-md-6 col-sm-6" style='margin-bottom: 50px; display: inline; height: 250px' >
-           <div class="col-sm-4" style='max-width:200px;margin-right: 30px'>
-             <img style='width: 120%; display: inline; ' v-bind:src="artist1">
-          </div>
-
-          <div class="col-sm-6" style='max-height: 250px;'>
-             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" >Tab1</a></li>
-                <li><a data-toggle="tab">Tab2</a></li>
-             </ul>
-             <div class="tab-content">
-             </div>
-           </div>
-
-         </div>
-
-         <div class = "col-lg-6 col-md-6 col-sm-6" style='margin-bottom: 50px; display: inline; height: 250px' >
-           <div class="col-sm-4" style='max-width:200px;margin-right: 30px'>
-             <img style='width: 120%; display: inline; ' v-bind:src="artist2">
-          </div>
-
-          <div class="col-sm-6" style='max-height: 250px;'>
-             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" >Tab1</a></li>
-                <li><a data-toggle="tab">Tab2</a></li>
-             </ul>
-             <div class="tab-content">
-             </div>
-           </div>
-
-         </div>
+        <button class="btn btn-primary" @click="getLocation()">Get Location</button>
+        <br />
+        <div v-for="location in locations">
+         {{location.longitude}}
+         <br />
+         {{location.latitude}}
+        </div>
+        <!-- <img src="https://maps.googleapis.com/maps/api/staticmap?center=40.714728,-73.998672&zoom=12&size=400x400&maptype=satellite&key=AIzaSyBsbFmmqbVeRyPML9ef5" />  -->
       </div>
-    </div>
-  </div>
+      <div id="map"></div>
     <script src="script.js"></script>
+    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDcwGyRxRbcNGWOFQVT87A1mkxEOfm8t0w&callback=initMap&v=weekly"
+      async
+    ></script>
 
    </body>
 </html>

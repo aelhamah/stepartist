@@ -1,10 +1,13 @@
-var locations = []
-
 var resultView = new Vue({
   el: '#app',
   data: {
     latitude: 0,
     longitude: 0,
+    locations: [{ lat: 42.281599, lng: -83.677873 },
+      { lat: 42.220381, lng: -83.818647 }],
+    lat_sum: 42.281599 + 42.220381,
+    lon_sum: -83.677873 + -83.818647,
+    center: {lat: 0, lng: 0},
     image_url: '',
     api_key: 'AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E',
     public_key: 'AIzaSyDcwGyRxRbcNGWOFQVT87A1mkxEOfm8t0w'
@@ -23,7 +26,6 @@ var resultView = new Vue({
 
     getLocation: function() {
       if (navigator.geolocation) {
-        navigator.geolocation.watchPosition(this.capturePosition)
         navigator.geolocation.getCurrentPosition(this.capturePosition);
       } else {
         var error = "Geolocation is not supported by this browser.";
@@ -32,31 +34,39 @@ var resultView = new Vue({
     capturePosition: function(position) {
       this.latitude = position.coords.latitude
       this.longitude = position.coords.longitude
-      this.locations.push({latitude: this.latitude, longitude: this.longitude})
+      if(this.locations.length == 0) {
+        this.center.lat = this.latitude
+        this.center.lng = this.longitude
+        this.lat_sum = this.latitude
+        this.lon_sum = this.longitude
+      } else {
+        this.lat_sum += this.latitude
+        this.lon_sum += this.longitude
+        this.center.lat = this.lat_sum/(this.locations.length + 1)
+        this.center.lng = this.lon_sum/(this.locations.length + 1)
+      }
+      console.log(this.center)
+      this.locations.push({lat: this.latitude, lng: this.longitude})
+      this.initMap()
+    },
+    initMap: function() {
+
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 18,
+        center: this.center,
+        mapTypeId: "satellite",
+      });
+      const path = new google.maps.Polyline({
+        path: this.locations,
+        geodesic: true,
+        strokeColor: "#FF0000",
+        strokeOpacity: 0.5,
+        strokeWeight: 2,
+      });
+    
+      path.setMap(map);
     }
 
   }
 })
 
-function initMap() {
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 3,
-    center: { lat: 0, lng: -180 },
-    mapTypeId: "satellite",
-  });
-  const flightPlanCoordinates = [
-    { lat: 37.772, lng: -122.214 },
-    { lat: 21.291, lng: -157.821 },
-    { lat: -18.142, lng: 178.431 },
-    { lat: -27.467, lng: 153.027 },
-  ];
-  const flightPath = new google.maps.Polyline({
-    path: flightPlanCoordinates,
-    geodesic: true,
-    strokeColor: "#FF0000",
-    strokeOpacity: 1.0,
-    strokeWeight: 2,
-  });
-
-  flightPath.setMap(map);
-}

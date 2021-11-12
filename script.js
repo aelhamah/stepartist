@@ -8,6 +8,7 @@ var resultView = new Vue({
     lat_sum: 42.281599 + 42.220381,
     lon_sum: -83.677873 + -83.818647,
     center: {lat: 0, lng: 0},
+    zoom: 4,
     image_url: '',
     api_key: 'AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E',
     public_key: 'AIzaSyDcwGyRxRbcNGWOFQVT87A1mkxEOfm8t0w'
@@ -52,7 +53,7 @@ var resultView = new Vue({
     initMap: function() {
 
       const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: 18,
+        zoom: this.zoom,
         center: this.center,
         mapTypeId: "satellite",
       });
@@ -60,13 +61,24 @@ var resultView = new Vue({
         path: this.locations,
         geodesic: true,
         strokeColor: "#FF0000",
-        strokeOpacity: 0.5,
-        strokeWeight: 2,
+        strokeOpacity: 0.7,
+        strokeWeight: 3,
       });
     
       path.setMap(map);
     }
 
+  },
+
+  beforeMount() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.center.lat = position.coords.latitude
+        this.center.lng = position.coords.longitude
+        this.zoom = 18
+        this.initMap()
+      })
+    }
   }
 })
 

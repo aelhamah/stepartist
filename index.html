@@ -12,7 +12,6 @@
       <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
       <link rel="stylesheet" type="text/css" href="./style.css" />
       <script src="./script.js"></script>
-      </title>
    </head>
    <style>
       /*img {
@@ -21,16 +20,12 @@
    </style>
    <body >
      <div id='app'>
-        <button class="btn btn-primary" @click="getLocation()">Get Location</button>
-        <br />
-        <div v-for="location in locations">
-         {{location.longitude}}
-         <br />
-         {{location.latitude}}
-        </div>
+        
         <!-- <img src="https://maps.googleapis.com/maps/api/staticmap?center=40.714728,-73.998672&zoom=12&size=400x400&maptype=satellite&key=AIzaSyBsbFmmqbVeRyPML9ef5" />  -->
       </div>
       <div id="map"></div>
+      <button class="btn btn-primary" @click="getLocation()">Get Location</button>
+        <br />
     <script src="script.js"></script>
     <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
     <script

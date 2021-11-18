@@ -8,6 +8,8 @@ var resultView = new Vue({
     lat_sum: 42.281599 + 42.220381,
     lon_sum: -83.677873 + -83.818647,
     center: {lat: 0, lng: 0},
+    paths: [],
+    color: "#FFFFFF",
     zoom: 4,
     image_url: '',
     api_key: 'AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E',
@@ -48,15 +50,10 @@ var resultView = new Vue({
       }
       console.log(this.center)
       this.locations.push({lat: this.latitude, lng: this.longitude})
-      this.initMap()
+      this.updateMap()
     },
-    initMap: function() {
 
-      const map = new google.maps.Map(document.getElementById("map"), {
-        zoom: this.zoom,
-        center: this.center,
-        mapTypeId: "satellite",
-      });
+    endHandler: function() {
       const path = new google.maps.Polyline({
         path: this.locations,
         geodesic: true,
@@ -64,10 +61,40 @@ var resultView = new Vue({
         strokeOpacity: 0.7,
         strokeWeight: 3,
       });
-    
-      path.setMap(map);
-    }
 
+      console.log(this.color)
+      console.log("end path")
+
+      // clear locations
+      this.locations = []
+      this.paths.push(path);
+    },
+
+    updateMap: function() {
+      // this.drawing.push({"style": , "thickness": , "path": }) -- for mongo
+
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: this.zoom,
+        center: this.center,
+        mapTypeId: "satellite",
+      });
+      
+      const path = new google.maps.Polyline({
+        path: this.locations,
+        geodesic: true,
+        strokeColor: "#FF0000",
+        strokeOpacity: 0.7,
+        strokeWeight: 3,
+      });
+
+      // render current line 
+      path.setMap(map);
+    
+      // rerender all past lines
+      this.paths.forEach(function(curr_path) {
+        curr_path.setMap(map);
+      });
+    }
   },
 
   beforeMount() {
@@ -76,9 +103,8 @@ var resultView = new Vue({
         this.center.lat = position.coords.latitude
         this.center.lng = position.coords.longitude
         this.zoom = 18
-        this.initMap()
+        this.updateMap()
       })
     }
   }
 })
-

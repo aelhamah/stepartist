@@ -19,23 +19,55 @@
       }*/
    </style>
    <body >
-     <div id='app'>
-      <button class="btn btn-primary" v-on:click="getLocation">Get Location</button>
-      <button class="btn btn-primary" v-on:click="endHandler">End Path</button>
-      <div>
-         <input type="color" name="head" id="color" v-bind:value="color" v-model="color">
-         <label for="head">Path Color</label>
-      </div>
-        
-        <!-- <img src="https://maps.googleapis.com/maps/api/staticmap?center=40.714728,-73.998672&zoom=12&size=400x400&maptype=satellite&key=AIzaSyBsbFmmqbVeRyPML9ef5" />  -->
+      <div id='app'>
+         <div v-if="recording">
+            <button class="btn btn-danger" v-on:click="recordingHandler" aria-label="Left Align" >
+               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-record-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                  <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+               </svg>
+               Recording
+            </button>
+         </div>
+         <div v-else>
+            <button class="btn btn-outline-danger" v-on:click="recordingHandler">Record</button>
+         </div>
+         
+         <button class="btn btn-primary" v-on:click="endHandler" data-bs-toggle="modal" data-bs-target="#finalImage">End Path</button>
+         <div>
+            <input type="color" name="head" id="color" v-bind:value="color" v-model="color">
+            <label for="head">Path Color</label>
+         </div>
+
+         <!-- Button trigger modal -->
+         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#finalImage">
+            Render Final Image
+         </button>
+         
+         <!-- Modal -->
+         <div class="modal fade" id="finalImage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">My Step Art</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+               </div>
+               <div class="modal-body">
+                  <img v-bind:src="image_url">
+               </div>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+               </div>
+            </div>
+            </div>
+         </div>
       </div>
       <div id="map"></div>   
-    <script src="script.js"></script>
-    <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
-    <script
+      <script src="script.js"></script>
+      <!-- Async script executes immediately and must be after any DOM elements used in callback. -->
+      <script
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E&callback=resultView.updateMap&v=weekly"
       async
-    ></script>
-
+      ></script>
    </body>
 </html>

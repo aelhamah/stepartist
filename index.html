@@ -20,6 +20,29 @@
    </style>
    <body >
       <div id='app'>
+         <div class='main-menu'>
+            <div class="banner">
+               <svg viewBox="0 0 960 300">
+                  <symbol id="s-text">
+                     <text text-anchor="middle" x="50%" y="65%">Step Artist</text>
+                  </symbol>
+                  <g class = "g-ants">
+                     <use xlink:href="#s-text" class="text-copy"></use>
+                     <use xlink:href="#s-text" class="text-copy"></use>
+                     <use xlink:href="#s-text" class="text-copy"></use>
+                     <use xlink:href="#s-text" class="text-copy"></use>
+                     <use xlink:href="#s-text" class="text-copy"></use>
+                  </g>
+               </svg>
+            </div>
+            <div class="buttons">
+               <button id="start">Start</button>
+               <button id="tutorial">tutorial</button>
+            </div>
+            <div class="tutorial">
+
+            </div>
+         </div>
          <div v-if="recording">
             <button class="btn btn-danger" v-on:click="recordingHandler" aria-label="Left Align" >
                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-record-circle" viewBox="0 0 16 16">

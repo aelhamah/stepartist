@@ -9,3 +9,100 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.main-menu {
+  position: absolute;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+
+.main-menu::before {
+  background-image: url(img/map.jpg);
+  background-size: cover;
+  position: absolute;
+  opacity: 0.50;
+  content: "";
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
+.banner {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  width: 100%;
+  height: 10%;
+  font-family: 'Fira Sans', sans-serif;
+  background-color: rgb(63, 63, 63);
+  font-weight: 800;
+  box-shadow: 10px 10px 8px #303030;
+}
+
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+svg {
+    display: block;
+    font: 10.5em 'Montserrat';
+    width: 100%;
+    height: 130%;
+    margin: 0 auto;
+}
+
+.text-copy {
+    fill: none;
+    stroke: white;
+    stroke-dasharray: 6% 29%;
+    stroke-width: 5px;
+    stroke-dashoffset: 0%;
+    animation: stroke-offset 5.5s infinite linear;
+}
+
+.text-copy:nth-child(1){
+	stroke: #ffe600;
+	animation-delay: -1;
+}
+
+.text-copy:nth-child(2){
+	stroke: #bd1616;
+	animation-delay: -2s;
+}
+
+.text-copy:nth-child(3){
+	stroke: #599c62;
+	animation-delay: -3s;
+}
+
+.text-copy:nth-child(4){
+	stroke: #4da4c7;
+	animation-delay: -4s;
+}
+
+.text-copy:nth-child(5){
+	stroke: #e6b3ec;
+	animation-delay: -5s;
+}
+
+@keyframes stroke-offset{
+	100% {stroke-dashoffset: -35%;}
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.main-menu button {
+  width: 20%;
+  height: 20%;
+  background-color: #bd1616;
+}

@@ -20,7 +20,7 @@
    </style>
    <body >
       <div id='app'>
-         <div class='main-menu'>
+         <div v-if="start == false" class='main-menu'>
             <div class="banner">
                <svg viewBox="0 0 960 300">
                   <symbol id="s-text">
@@ -35,15 +35,14 @@
                   </g>
                </svg>
             </div>
-            <div v-if="start == false" class='body'>
-               <div class="buttons btn-group-justified btn-group-sm btn-group-vertical">
-                  <button @click="startGame" type="button" class="btn" id="start">Start Drawing</button>
-                  <button type="button" class="btn" id="tutorial">Tutorial</button>
-               </div>
-               <div class="tutorial">
-
-               </div>
+            <div class="buttons">
+               <button @click="startGame" id="start">Start Drawing</button>
+               <button id="tutorial">Tutorial</button>
             </div>
+            <div class="tutorial">
+
+            </div>
+         </div>
          <div v-if="recording">
             <button class="btn btn-danger" v-on:click="recordingHandler" aria-label="Left Align" >
                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-record-circle" viewBox="0 0 16 16">

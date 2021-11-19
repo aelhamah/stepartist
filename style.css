@@ -11,23 +11,14 @@ body {
 }
 
 .main-menu {
-  visibility: visible;
   position: absolute;
   z-index: 5;
-  width: 100%;
-  height: 100%;
-}
-
-.body {
-  visibility: visible;
-  position: absolute;
-  z-index: 4;
   width: 100%;
   height: 100%;
   background-color: black;
 }
 
-.body::before {
+.main-menu::before {
   background-image: url(img/map.jpg);
   background-size: cover;
   position: absolute;
@@ -103,22 +94,15 @@ svg {
 
 .buttons {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: absolute;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: auto;
-  margin-bottom: auto;
+  width: 100%;
   height: 100%;
 }
 
 .main-menu button {
-  width: 10%;
-  height: 10%;
-  font-family: 'Montserrat';
-  color: white;
-  font-size: 50%;
+  width: 20%;
+  height: 20%;
   background-color: #bd1616;
 }

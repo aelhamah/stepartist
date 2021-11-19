@@ -14,7 +14,7 @@ var resultView = new Vue({
     color: "#FFFFFF",
     recording: false,
     zoom: 4,
-    image_url: 'https://maps.googleapis.com/maps/api/staticmap?size=390x844&maptype=satellite&key=AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E&path=color:0x0000ff|weight:5|40.737102,-73.990318|40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397',
+    image_url: '',
     api_key: 'AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E',
     public_key: 'AIzaSyDcwGyRxRbcNGWOFQVT87A1mkxEOfm8t0w'
   },
@@ -46,24 +46,31 @@ var resultView = new Vue({
       this.updateMap()
 
     },
-    // capturePosition: function(position) {
-    //   this.latitude = position.coords.latitude
-    //   this.longitude = position.coords.longitude
-    //   if(this.locations.length == 0) {
-    //     this.center.lat = this.latitude
-    //     this.center.lng = this.longitude
-    //     this.lat_sum = this.latitude
-    //     this.lon_sum = this.longitude
-    //   } else {
-    //     this.lat_sum += this.latitude
-    //     this.lon_sum += this.longitude
-    //     this.center.lat = this.lat_sum/(this.locations.length + 1)
-    //     this.center.lng = this.lon_sum/(this.locations.length + 1)
-    //   }
-    //   console.log(this.center)
-    //   this.locations.push({lat: this.latitude, lng: this.longitude})
-    //   this.updateMap()
-    // },
+    download_image() {
+      axios({
+        url: this.image_url,
+        method: 'GET',
+        responseType: 'blob'
+      }).then((response) => {
+        var fileUrl = window.URL.createObjectURL(new Blob([response.data]))
+        var fileLink = document.createElement('a')
+        fileLink.href = fileUrl;
+
+        fileLink.setAttribute('download', 'image.jpg')
+        document.body.append(fileLink)
+
+        fileLink.click()
+      })
+    },
+    renderEnd: function() {
+
+      path_str = 'path=color:0x0000ff|weight:5'
+      for (var i = 0; i < this.locations.length; i++) {
+        path_str += '|'+ this.locations[i].lat + ',' + this.locations[i].lng 
+      }
+      this.image_url = "https://maps.googleapis.com/maps/api/staticmap?size=390x844&maptype=satellite&key=AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E&" + path_str
+     
+    },
 
     endHandler: function() {
       const path = new google.maps.Polyline({
@@ -84,12 +91,6 @@ var resultView = new Vue({
 
     updateMap: function() {
       // this.drawing.push({"style": , "thickness": , "path": }) -- for mongo
-      path_str = 'path=color:0x0000ff|weight:5'
-      for (var i = 0; i < this.locations.length; i++) {
-        path_str += '|'+ this.locations[i].lat + ',' + this.locations[i].lng 
-      }
-      this.image_url = "https://maps.googleapis.com/maps/api/staticmap?size=390x844&maptype=satellite&key=AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E&" + path_str
-
       const map = new google.maps.Map(document.getElementById("map"), {
         zoom: this.zoom,
         center: this.center,

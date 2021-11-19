@@ -63,7 +63,7 @@
          </div>
 
          <!-- Button trigger modal -->
-         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#finalImage">
+         <button type="button" @click="renderEnd"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#finalImage">
             Render Final Image
          </button>
          
@@ -77,6 +77,8 @@
                </div>
                <div class="modal-body">
                   <img v-bind:src="image_url">
+                  <a class="btn btn-primary" @click="download_image()">Download!</a>
+                  <button class="btn btn-primary">Share!</button>
                </div>
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

@@ -1,6 +1,7 @@
 var resultView = new Vue({
   el: '#app',
   data: {
+    start: false,
     latitude: 0,
     longitude: 0,
     // locations: [{ lat: 42.281599, lng: -83.677873 },
@@ -18,6 +19,9 @@ var resultView = new Vue({
     public_key: 'AIzaSyDcwGyRxRbcNGWOFQVT87A1mkxEOfm8t0w'
   },
   methods: {
+    startGame: function() {
+      this.start = true;
+    },
     getImage: function() {
       if (image_url == '') {
         this.image_url = "https://maps.googleapis.com/maps/api/staticmap?size=390x844&maptype=satellite&key=AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E&path=color:0x0000ff|weight:5|40.737102,-73.990318|40.749825,-73.987963|40.752946,-73.987384|40.755823,-73.986397"

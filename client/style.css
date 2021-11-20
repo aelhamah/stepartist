@@ -110,3 +110,12 @@ svg {
   color:white;
   font-weight: 800;
 }
+
+.modal-body {
+  text-align: center;
+}
+
+.modal-body p {
+  margin-top: 10px;
+}
+

@@ -46,6 +46,12 @@ var resultView = new Vue({
       this.updateMap()
 
     },
+    shareToTwit() {
+      window.open(
+        'https://twitter.com/intent/tweet?text=Check%20out%20this%20cool%20drawing%20I%20made%20using%20the%20Step%20Artist%20App!&hashtags=StepArtist',
+        '_blank' 
+      );
+    },
     download_image() {
       axios({
         url: this.image_url,
@@ -56,7 +62,7 @@ var resultView = new Vue({
         var fileLink = document.createElement('a')
         fileLink.href = fileUrl;
 
-        fileLink.setAttribute('download', 'image.jpg')
+        fileLink.setAttribute('download', 'stepArtistImg.jpg')
         document.body.append(fileLink)
 
         fileLink.click()

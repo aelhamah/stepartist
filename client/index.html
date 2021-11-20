@@ -77,8 +77,12 @@
                </div>
                <div class="modal-body">
                   <img v-bind:src="image_url">
-                  <a class="btn btn-primary" @click="download_image()">Download!</a>
-                  <button class="btn btn-primary">Share!</button>
+                  <p>Steps to Share to Twitter:</p>
+                  <p>Step 1: Save the image</p>
+                  <button class="btn btn-primary" @click="download_image()">Download!</button>
+                  <br>
+                  <p>Step 2: Upload the image to the tweet!</p>
+                  <button class= "btn btn-primary" @click="shareToTwit">Share to Twitter!</button>
                </div>
                <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

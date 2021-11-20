@@ -15,12 +15,28 @@ var resultView = new Vue({
     recording: false,
     zoom: 4,
     image_url: '',
+    backToStart: false,
     api_key: 'AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E',
     public_key: 'AIzaSyDcwGyRxRbcNGWOFQVT87A1mkxEOfm8t0w'
   },
   methods: {
+    restartImage: function() {
+      this.locations = [];
+      this.paths = [];
+
+      if (this.backToStart) {
+        this.backToStart = false;
+        this.start = false;
+      }
+    },
     startGame: function() {
       this.start = true;
+    },
+    toStart: function(){
+      this.backToStart = true;
+    },
+    close: function() {
+      this.backToStart = false;
     },
     getImage: function() {
       if (image_url == '') {

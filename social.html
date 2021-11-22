@@ -16,8 +16,33 @@
 
    <body >
       <div id='socialfeed'>
-          
-
+         <div class="banner" >
+            <svg viewBox="0 0 960 300">
+               <symbol id="s-text">
+                  <text text-anchor="middle" x="50%" y="65%">Step Artist</text>
+               </symbol>
+               <g class = "g-ants">
+                  <use xlink:href="#s-text" class="text-copy"></use>
+                  <use xlink:href="#s-text" class="text-copy"></use>
+                  <use xlink:href="#s-text" class="text-copy"></use>
+                  <use xlink:href="#s-text" class="text-copy"></use>
+                  <use xlink:href="#s-text" class="text-copy"></use>
+               </g>
+            </svg>
+         </div>
+         <div style="padding-top: 100px;">
+            <div v-for="post in posts" class="card">
+               <div class="card" style="width: 18rem;">
+                  <img class="card-img-top" v-bind:src="post.url" alt="step art">
+                  <div class="card-body">
+                  <h5 class="card-title">{{ post.name }}</h5>
+                  <!-- <p class="card-text">by {{ post.name }}</p> -->
+                  <button class="btn btn-primary" @click="download_image()">Download!</button>
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
    </body>
+   <script src="social.js"></script>
 </html>

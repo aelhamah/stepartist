@@ -6,8 +6,6 @@ var socialView = new Vue({
     },
     methods: {
         getPosts: function() {
-            // make request to https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/getart?secret=secret
-            // and set the posts to the response
             console.log('getPosts');
             fetch('https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/getart?secret=secret', {
                 method: 'GET',
@@ -16,6 +14,22 @@ var socialView = new Vue({
                 this.posts = data;
                 console.log(data);
             });
+        },
+        download_image() {
+            axios({
+              url: this.image_url,
+              method: 'GET',
+              responseType: 'blob'
+            }).then((response) => {
+              var fileUrl = window.URL.createObjectURL(new Blob([response.data]))
+              var fileLink = document.createElement('a')
+              fileLink.href = fileUrl;
+      
+              fileLink.setAttribute('download', 'stepArtistImg.jpg')
+              document.body.append(fileLink)
+      
+              fileLink.click()
+            })
         }
     },
     beforeMount() {

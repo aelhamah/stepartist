@@ -3,7 +3,13 @@ var socialView = new Vue({
     data: {
       secret: 'secret',
       posts: [],
+      timer: '',
     },
+    created () {
+      this.getPosts();
+      // update every 15 seconds
+      this.timer = setInterval(this.getPosts, 15000);
+  },
     methods: {
         getPosts: function() {
             console.log('getPosts');
@@ -14,6 +20,9 @@ var socialView = new Vue({
                 this.posts = data;
                 console.log(data);
             });
+        },
+        cancelAutoUpdate () {
+          clearInterval(this.timer);
         },
         download_image() {
             axios({
@@ -32,7 +41,4 @@ var socialView = new Vue({
             })
         }
     },
-    beforeMount() {
-        this.getPosts();
-    }
   })

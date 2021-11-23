@@ -16,6 +16,9 @@
 
    <body >
       <div id='socialfeed'>
+         <!-- refresh button that calls get art-->
+         <button class="btn btn-primary" id="refresh" v-on:click="getPosts">Refresh</button>
+         
          <div class="banner" >
             <svg viewBox="0 0 960 300">
                <symbol id="s-text">
@@ -33,11 +36,12 @@
          <div style="padding-top: 100px;">
             <div v-for="post in posts" class="card">
                <div class="card" style="width: 18rem;">
-                  <img class="card-img-top" v-bind:src="post.url" alt="step art">
                   <div class="card-body">
-                  <h5 class="card-title">{{ post.name }}</h5>
-                  <!-- <p class="card-text">by {{ post.name }}</p> -->
-                  <button class="btn btn-primary" @click="download_image()">Download!</button>
+                     <h5 class="card-title">{{ post.title }}</h5>
+                     <p class="card-subtitle mb-2 text-muted">by {{ post.name }}</p>
+                     <img class="card-img-top" v-bind:src="post.url" alt="step art">
+                     <p class="card-text">{{ post.description }}</p>
+                     <button class="btn btn-primary" @click="download_image()">Download</button>
                   </div>
                </div>
             </div>

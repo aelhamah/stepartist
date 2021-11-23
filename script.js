@@ -111,6 +111,31 @@ var resultView = new Vue({
       this.paths.push(path);
     },
 
+    shareHandler: function(e) {
+      var url = "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/postart?secret=secret";
+
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url);
+
+      xhr.setRequestHeader("Accept", "application/json");
+      xhr.setRequestHeader("Content-Type", "application/json");
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            console.log(xhr.status);
+            console.log(xhr.responseText);
+        }};
+
+      var data = `{
+        "name": "${e.target.form.name.value}",
+        "title": "${e.target.form.title.value}",
+        "description": "${e.target.form.description.value}",
+        "url": "${this.image_url}"
+      }`;
+
+      xhr.send(data);
+    },
+
     updateMap: function() {
       // this.drawing.push({"style": , "thickness": , "path": }) -- for mongo
       const map = new google.maps.Map(document.getElementById("map"), {

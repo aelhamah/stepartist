@@ -174,7 +174,9 @@ var resultView = new Vue({
         }
         console.log("Location: {" + this.center.lat + " " + this.center.lng + "}")
         this.updateMap()
-      });
+      },
+      error => console.log(error),
+      {enableHighAccuracy: true});
       // navigator.geolocation.getCurrentPosition(position => {
       //   this.center.lat = position.coords.latitude
       //   this.center.lng = position.coords.longitude

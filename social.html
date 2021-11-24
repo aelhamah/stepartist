@@ -16,9 +16,6 @@
 
    <body >
       <div id='socialfeed'>
-         <!-- refresh button that calls get art-->
-         <button class="btn btn-primary" id="refresh" v-on:click="getPosts">Refresh</button>
-         
          <div class="banner" >
             <svg viewBox="0 0 960 300">
                <symbol id="s-text">
@@ -33,6 +30,12 @@
                </g>
             </svg>
          </div>
+            <div class="soc-btn">
+               <!-- refresh button that calls get art-->
+               <button class="btn btn-primary" id="refresh" v-on:click="getPosts" style="margin-bottom: 10px;">Refresh</button>
+               <a href="index.html"><button class="btn btn-primary" id="return">Main Menu</button></a>
+            </div>
+
          <div style="padding-top: 100px;">
             <div v-for="post in posts" class="card">
                <div class="card" style="width: 18rem;">

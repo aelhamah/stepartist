@@ -39,128 +39,144 @@
             <div class="buttons">
                <button @click="startGame" type="button" class="btn" id="start">Start Drawing</button>
                <button id="tutorial" type="button" class="btn">Tutorial</button>
+               <a href="social.html"><button href="social.html" id="social" type="button" class="btn">Social</button></a>
+
             </div>
             <div class="tutorial">
 
             </div>
          </div>
-         <div v-if="recording">
-            <button class="btn btn-danger" v-on:click="recordingHandler" aria-label="Left Align" >
-               <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-record-circle" viewBox="0 0 16 16">
-                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                  <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-               </svg> -->
-               <i class="fa fa-pause" aria-hidden="true"></i>
-               Recording
+         <div class="banner">
+            <svg viewBox="0 0 960 300">
+               <symbol id="s-text">
+                  <text text-anchor="middle" x="50%" y="65%">Step Artist</text>
+               </symbol>
+               <g class = "g-ants">
+                  <use xlink:href="#s-text" class="text-copy"></use>
+                  <use xlink:href="#s-text" class="text-copy"></use>
+                  <use xlink:href="#s-text" class="text-copy"></use>
+                  <use xlink:href="#s-text" class="text-copy"></use>
+                  <use xlink:href="#s-text" class="text-copy"></use>
+               </g>
+            </svg>
+         </div>
+            <div v-if="recording">
+               <button style="margin-top: 110px;" class="btn btn-danger" v-on:click="recordingHandler" aria-label="Left Align" >
+                  <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-record-circle" viewBox="0 0 16 16">
+                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                     <path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                  </svg> -->
+                  <i class="fa fa-pause" aria-hidden="true"></i>
+                  Recording
+               </button>
+            </div>
+            <div v-else>
+               <button style="margin-top: 110px;" class="btn btn-outline-danger" v-on:click="recordingHandler">
+                  <i class="fa fa-map-pin" aria-hidden="true"></i>
+                  Record</button>
+            </div>
+            
+            <button class="btn btn-primary" v-on:click="endHandler" data-bs-toggle="modal" data-bs-target="#finalImage">End Path</button>
+            <div>
+               <input type="color" name="head" id="color" v-bind:value="color" v-model="color">
+               <label for="head">Path Color</label>
+            </div>
+   
+            <!-- Button trigger modal -->
+            <button type="button" @click="renderEnd"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#finalImage">
+               Render Final Image
             </button>
-         </div>
-         <div v-else>
-            <button class="btn btn-outline-danger" v-on:click="recordingHandler">
-               <i class="fa fa-map-pin" aria-hidden="true"></i>
-               Record</button>
-         </div>
-         
-         <button class="btn btn-primary" v-on:click="endHandler" data-bs-toggle="modal" data-bs-target="#finalImage">End Path</button>
-         <div>
-            <input type="color" name="head" id="color" v-bind:value="color" v-model="color">
-            <label for="head">Path Color</label>
-         </div>
-
-         <!-- Button trigger modal -->
-         <button type="button" @click="renderEnd"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#finalImage">
-            Render Final Image
-         </button>
-
-         <button class="btn btn-primary" @click="toStart" data-bs-toggle="modal" data-bs-target="#restartImageModal">Back to Start Menu</button>
-         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#restartImageModal">New Image</button>
-
-         <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Success<i class="fa fa-check" aria-hidden="true"></i></h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+   
+            <button class="btn btn-primary" @click="toStart" data-bs-toggle="modal" data-bs-target="#restartImageModal">Back to Start Menu</button>
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#restartImageModal">New Image</button>
+   
+            <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Success<i class="fa fa-check" aria-hidden="true"></i></h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                     <button class="btn btn-primary"><span>TODO: Link Go to global feed</span></button>
+                  </div>
                </div>
-               <div class="modal-body">
-                  <button class="btn btn-primary"><span>TODO: Link Go to global feed</span></button>
                </div>
             </div>
-            </div>
-         </div>
-
-          <!-- Modal for Share Image -->
-         <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Would you like to share your image?</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+   
+             <!-- Modal for Share Image -->
+            <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Would you like to share your image?</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                     <form>
+                        This will go to the global feed of all step art.
+                        <img v-bind:src="image_url">
+                        <div class="form-group">
+                           <label for="name">Name</label>
+                           <input type="name" class="form-control" id="name" placeholder="Your Name">
+                         </div>
+                        <div class="form-group">
+                          <label for="title">Title</label>
+                          <input type="title" class="form-control" id="title" aria-describedby="title" placeholder="My Step Art">
+                        </div>
+                        <div class="form-group">
+                           <label for="description">Description</label>
+                           <input type="description" class="form-control" id="description" placeholder="Description">
+                         </div>
+                        <button type="submit" class="btn btn-primary" @click.prevent="shareHandler" data-bs-toggle="modal" data-bs-target="#successModal">Submit</button>
+                     </form>
+                  </div>
                </div>
-               <div class="modal-body">
-                  <form>
-                     This will go to the global feed of all step art.
+               </div>
+            </div>
+   
+            <!-- Modal for Restart Image -->
+            <div class="modal fade" id="restartImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-body">
+                     All progress will be lost on the current image. Are you still sure you want to proceed?
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" @click="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                     <button type="button" @click="restartImage" class="btn btn-primary" data-bs-dismiss="modal">Proceed</button>
+                  </div>
+               </div>
+               </div>
+            </div>
+            
+            <!-- Modal for Final Image -->
+            <div class="modal fade" id="finalImage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog">
+               <div class="modal-content">
+                  <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">My Step Art</h5>
+                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
                      <img v-bind:src="image_url">
-                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="name" class="form-control" id="name" placeholder="Your Name">
-                      </div>
-                     <div class="form-group">
-                       <label for="title">Title</label>
-                       <input type="title" class="form-control" id="title" aria-describedby="title" placeholder="My Step Art">
-                     </div>
-                     <div class="form-group">
-                        <label for="description">Description</label>
-                        <input type="description" class="form-control" id="description" placeholder="Description">
-                      </div>
-                     <button type="submit" class="btn btn-primary" @click.prevent="shareHandler" data-bs-toggle="modal" data-bs-target="#successModal">Submit</button>
-                  </form>
+                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shareModal">
+                        Share to Global Feed <i class="fa fa-paper-plane"></i>
+                     </button>
+                     <br />
+                     <p>Steps to Share to Twitter:</p>
+                     <p>Step 1: Save the image</p>
+                     <button class="btn btn-primary" @click="download_image()">Download!</button>
+                     <br/>
+                     <p>Step 2: Upload the image to the tweet!</p>
+                     <button class= "btn btn-primary" @click="shareToTwit">Share to Twitter!</button>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+               </div>
                </div>
             </div>
-            </div>
-         </div>
-
-         <!-- Modal for Restart Image -->
-         <div class="modal fade" id="restartImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-body">
-                  All progress will be lost on the current image. Are you still sure you want to proceed?
-               </div>
-               <div class="modal-footer">
-                  <button type="button" @click="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" @click="restartImage" class="btn btn-primary" data-bs-dismiss="modal">Proceed</button>
-               </div>
-            </div>
-            </div>
-         </div>
-         
-         <!-- Modal for Final Image -->
-         <div class="modal fade" id="finalImage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">My Step Art</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                  <img v-bind:src="image_url">
-                  <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shareModal">
-                     Share to Global Feed <i class="fa fa-paper-plane"></i>
-                  </button>
-                  <br />
-                  <p>Steps to Share to Twitter:</p>
-                  <p>Step 1: Save the image</p>
-                  <button class="btn btn-primary" @click="download_image()">Download!</button>
-                  <br/>
-                  <p>Step 2: Upload the image to the tweet!</p>
-                  <button class= "btn btn-primary" @click="shareToTwit">Share to Twitter!</button>
-               </div>
-               <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-               </div>
-            </div>
-            </div>
-         </div>
       </div>
       <div id="map"></div>   
       <script src="script.js"></script>

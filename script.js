@@ -8,11 +8,11 @@ var resultView = new Vue({
     // record keeping logic
     map: undefined,
     marker: undefined,
-    currentPos: undefined,
-    currentPath: undefined,
-    locations: [],
-    paths: [],
-    polylines: [],
+    currentPos: undefined, 
+    lastPos: undefined, // used to prevent duplicate coords
+    locations: [], // coords of one line
+    paths: [], // array of lines (used for static maps)
+    polylines: [], // array of Polyline objects (used for undo)
     // map options
     color: "#FFFFFF",
     zoom: 18,
@@ -112,7 +112,7 @@ var resultView = new Vue({
       }
       let final_str = "";
       this.paths.forEach(path => {
-        let path_str = '&path=color:0x0000ff|weight:5';
+        let path_str = '&path=color:0xff0000ff|weight:5';
         path.forEach(coord => {
           path_str += '|'+ coord.lat + ',' + coord.lng;
         });
@@ -129,6 +129,7 @@ var resultView = new Vue({
         map.setZoom(this.zoom);
         const initPos = {lat: success.coords.latitude, lng: success.coords.longitude};
         this.currentPos = initPos;
+        this.lastPos = initPos;
         map.panTo(initPos);
         map.setTilt(0);
         const marker = new google.maps.Marker({ map, position: initPos });
@@ -139,29 +140,27 @@ var resultView = new Vue({
     },
 
     updateMap: function() {
-      if (navigator.geolocation) {
-        // track user
-        navigator.geolocation.watchPosition(success => {
-          const currentPos = {lat: success.coords.latitude, lng: success.coords.longitude};
-          this.currentPos = JSON.parse(JSON.stringify(currentPos));
-          this.marker.setPosition(this.currentPos);
-          this.map.panTo(this.currentPos);
-          if (this.recording) {
-            this.locations.push(this.currentPos);
-            const path = new google.maps.Polyline({
-              path: this.locations,
-              geodesic: true,
-              strokeColor: "#FF0000",
-              strokeOpacity: 0.7,
-              strokeWeight: 3,
-            });
-            path.setMap(this.map);
-            this.currentPath = path;
-            this.polylines.push(path);
-          }
-        }, error => console.log(error),
-        {enableHighAccuracy: true});
-      }
+      // track user
+      navigator.geolocation.watchPosition(success => {
+        const currentPos = {lat: success.coords.latitude, lng: success.coords.longitude};
+        this.currentPos = JSON.parse(JSON.stringify(currentPos));
+        this.marker.setPosition(this.currentPos);
+        this.map.panTo(this.currentPos);
+        if (this.recording && (JSON.stringify(this.currentPos) !== JSON.stringify(this.lastPos))) {
+          this.lastPos = this.currentPos;
+          this.locations.push(this.currentPos);
+          const path = new google.maps.Polyline({
+            path: this.locations,
+            geodesic: true,
+            strokeColor: "#FF0000",
+            strokeOpacity: 1.0,
+            strokeWeight: 3,
+          });
+          path.setMap(this.map);
+          this.polylines.push(path);
+        }
+      }, error => console.log(error),
+      {enableHighAccuracy: true});
     }
   },
 

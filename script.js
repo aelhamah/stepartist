@@ -188,6 +188,34 @@ var resultView = new Vue({
       return menuButton;
     },
 
+    draw(canvas, context) {
+      context.clearRect(0,0,canvas.width,canvas.height);
+      // next draw 
+      context.beginPath();
+      context.moveTo(10,75);
+      context.lineTo(290,75);
+      context.stroke();
+    },
+
+    drawLine() {
+      var canvas = document.getElementById('drawingCanvas');
+      var context = canvas.getContext("2d");
+
+      // color
+      context.fillStyle = "red";
+      console.log(context.fillStyle);
+
+      // thickness
+      var mySize = theLineWidth.value;
+      context.lineWidth = mySize;
+
+      // opacity
+      var myOpacity = theLineOpacity.value;
+      context.globalAlpha = myOpacity / 100.0;
+
+      this.draw(canvas, context);
+    },
+    
     createMap: async function() {
       // initialize map
       navigator.geolocation.getCurrentPosition(success => {
@@ -213,6 +241,12 @@ var resultView = new Vue({
         map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(this.recordButtonConstructor());
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(this.menuButtonConstructor());
         map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.endButtonConstructor());
+
+        // initialize thickness line
+        var canvas = document.getElementById('drawingCanvas');
+        var context = canvas.getContext("2d");
+        this.draw(canvas, context);
+
       }, error => console.log(error),
       {enableHighAccuracy: true});
     },

@@ -147,3 +147,16 @@ svg {
   top: 50%!important;
   transform: translateY(-50%)!important;
 }
+
+#theLineWidthSection {
+  float: right;
+  margin-right: 170px;
+  /* margin-top: -42px;*/
+  position: relative;
+  z-index: 9999;
+  cursor: pointer;
+  outline:1px solid;
+  /*overflow: hidden;*/
+}
+
+canvas{border:1px solid}

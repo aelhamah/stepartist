@@ -58,19 +58,24 @@
                      <p>Current Line Settings: </p>
                      <div>
                         <label for="head">Color: </label>
-                        <input type="color" name="head" id="color" v-bind:value="color" v-model="color">
+                        <input @click="drawLine" type="color" name="head" id="color" v-bind:value="color" v-model="color">
                      </div>
                      <br>
                      <div>
                         <label for="thickness">Thickness:  </label>
-                        <input name="thickness"@keyup.enter="enter" type="text">
+                        <input @input="drawLine"name="thickness" type="range" id="theLineWidth" min="2" max="40" 
+                        value="2" title="Line width">            
                      </div>
                      <br>
                      <div >
                         <label for="opacity">Opacity:  </label>
-                        <input name="opacity" @keyup.enter="enter" type="text">
+                        <input @input="drawLine"name="opacity" type="range" id="theLineOpacity" min="0" max="100" 
+                        value="2" title="Line width"> 
                      </div>
+                     <p>Preview Line:</p>
                      <br>
+                     <canvas id="drawingCanvas"></canvas>
+                     <br>  
                      **Can separate line settings into different modal: up to you guys.
                      <hr>
                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#restartImageModal" style="margin: 10px;">Restart Image</button>

@@ -141,7 +141,7 @@ var resultView = new Vue({
       recordButton.className = 'btn btn-outline-danger'
       recordButton.id = 'record_button'
       recordButton.setAttribute("aria-label", "Left Align")
-      recordButton.setAttribute("style", "margin-top: 8px")
+      recordButton.setAttribute("style", "margin-top: 8px; margin-right: 5px;")
 
       let text = document.createElement("span");
       text.innerHTML = "Record";
@@ -164,7 +164,7 @@ var resultView = new Vue({
       startButton.className = "btn btn-primary";
       startButton.setAttribute("data-bs-toggle", "modal");
       startButton.setAttribute("data-bs-target", "#restartImageModal");
-      startButton.addEventListener("click", this.toStart());
+      startButton.addEventListener("click", outsideToStart);
 
       let text = document.createElement("span");
       text.innerHTML = "Back to Menu";
@@ -222,9 +222,12 @@ var resultView = new Vue({
         const marker = new google.maps.Marker({ map, position: initPos });
         this.map = map;
         this.marker = marker;
+
+        let buttonFlex = document.createElement("div");
+        buttonFlex.appendChild(this.recordButtonConstructor());
+        buttonFlex.appendChild(this.endButtonConstructor());
       
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.recordButtonConstructor());
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.endButtonConstructor());
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(buttonFlex);
         map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.startMenuButtonConstructor());
         map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.restartButtonConstructor());
 
@@ -274,3 +277,7 @@ outsideRecordingHandler = function() {
 outsideRenderHandler = function() {
   resultView.renderEnd();
 };
+
+outsideToStart = function() {
+  resultView.toStart();
+}

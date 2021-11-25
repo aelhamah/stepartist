@@ -17,6 +17,16 @@ var socialView = new Vue({
                 method: 'GET',
             }).then((response) => response.json()
             ).then(data => {
+                // process data
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].url == null || data[i].url == '') {
+                      data[i].url = 'img/local-file-not-found.png'
+                    }
+                    if (data[i].title == null || data[i].title == '') {
+                      data[i].title = 'Untitled'
+                    }
+                }
+
                 this.posts = data;
                 console.log(data);
             });

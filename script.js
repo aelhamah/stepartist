@@ -125,7 +125,9 @@ var resultView = new Vue({
       }
       let final_str = "";
       this.paths.forEach(path => {
-        let path_str = '&path=color:0xff0000ff|weight:5';
+        // replace # with 0x in color
+        let color = this.color.replace("#", "0x");
+        let path_str = '&path=color:' + color + '|weight:5';
         path.forEach(coord => {
           path_str += '|'+ coord.lat + ',' + coord.lng;
         });
@@ -243,7 +245,7 @@ var resultView = new Vue({
           const path = new google.maps.Polyline({
             path: this.locations,
             geodesic: true,
-            strokeColor: "#FF0000",
+            strokeColor: this.color,
             strokeOpacity: 1.0,
             strokeWeight: 3,
           });

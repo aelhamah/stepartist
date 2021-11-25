@@ -101,7 +101,7 @@ var resultView = new Vue({
         this.locations = [];
         
         recordButton.className = 'btn btn-outline-danger';
-        $("#record_button span").text('Record');
+        $("#record_button span").text('   Record');
         let recordToggle = document.getElementById("record_toggle");
         recordToggle.className = 'fa fa-map-pin';
 
@@ -111,7 +111,7 @@ var resultView = new Vue({
         }
 
         recordButton.className = 'btn btn-danger';
-        $("#record_button span").text('Recording');
+        $("#record_button span").text('   Recording');
         let recordToggle = document.getElementById("record_toggle");
         recordToggle.className = 'fa fa-pause';
       }
@@ -149,39 +149,12 @@ var resultView = new Vue({
       recordButton.append(recordToggle);
 
       let text = document.createElement("span");
-      text.innerHTML = " Record";
+      text.innerHTML = "   Record";
       recordButton.appendChild(text);
 
       recordButton.addEventListener("click", outsideRecordingHandler);
 
       return recordButton;
-    },
-
-    startMenuButtonConstructor() {
-      let startButton = document.createElement("button");
-      startButton.className = "btn btn-primary";
-      startButton.setAttribute("data-bs-toggle", "modal");
-      startButton.setAttribute("data-bs-target", "#restartImageModal");
-      startButton.addEventListener("click", outsideToStart);
-
-      let text = document.createElement("span");
-      text.innerHTML = "Back to Menu";
-      startButton.appendChild(text);
-
-      return startButton;
-    },
-
-    restartButtonConstructor() {
-      let restartButton = document.createElement("button");
-      restartButton.className = "btn btn-primary";
-      restartButton.setAttribute("data-bs-toggle", "modal");
-      restartButton.setAttribute("data-bs-target", "#restartImageModal");
-      
-      let text = document.createElement("span");
-      text.innerHTML = "Restart Image";
-      restartButton.appendChild(text);
-
-      return restartButton;
     },
 
     endButtonConstructor() {
@@ -190,7 +163,6 @@ var resultView = new Vue({
       endButton.className = "btn btn-primary";
       endButton.setAttribute("data-bs-toggle", "modal");
       endButton.setAttribute("data-bs-target", "#finalImage");
-      // endButton.setAttribute("style", "margin-top: 8px")
       endButton.addEventListener("click", outsideRenderHandler);
       
       let text = document.createElement("span");
@@ -198,6 +170,22 @@ var resultView = new Vue({
       endButton.appendChild(text);
 
       return endButton;
+    },
+
+    menuButtonConstructor() {
+
+      let menuButton = document.createElement("button");
+      menuButton.className = "btn btn-light";
+      menuButton.setAttribute("data-bs-toggle", "modal");
+      menuButton.setAttribute("data-bs-target", "#menuModal");
+      menuButton.setAttribute("style", "margin: 5px")
+      
+      let img = document.createElement("img");
+      img.setAttribute("src", "img/Hamburger_icon.png");
+      img.setAttribute("style", "height: 20px; width: 20px; border-radius: 10px;")
+      menuButton.appendChild(img);
+
+      return menuButton;
     },
 
     createMap: async function() {
@@ -221,15 +209,10 @@ var resultView = new Vue({
         const marker = new google.maps.Marker({ map, position: initPos });
         this.map = map;
         this.marker = marker;
-
-        let buttonFlex = document.createElement("div");
-        buttonFlex.className = "btn-group-vertical";
-        buttonFlex.appendChild(this.startMenuButtonConstructor());
-        buttonFlex.appendChild(this.restartButtonConstructor());
-        buttonFlex.appendChild(this.endButtonConstructor());
       
         map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(this.recordButtonConstructor());
-        map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonFlex);
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(this.menuButtonConstructor());
+        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.endButtonConstructor());
       }, error => console.log(error),
       {enableHighAccuracy: true});
     },

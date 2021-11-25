@@ -24,7 +24,7 @@
    <body >
       <div id='app'>
          <div v-if="start == false" class='main-menu'>
-            <!-- <div class="banner">
+            <div class="banner">
                <svg viewBox="0 0 960 300">
                   <symbol id="s-text">
                      <text text-anchor="middle" x="50%" y="65%">Step Artist</text>
@@ -37,7 +37,8 @@
                      <use xlink:href="#s-text" class="text-copy"></use>
                   </g>
                </svg>
-            </div> -->
+            </div>
+         
             <div class="buttons">
                <button @click="startGame" type="button" class="btn" id="start">Start Drawing</button>
                <button id="tutorial" type="button" class="btn">Tutorial</button>
@@ -48,26 +49,40 @@
 
             </div>
          </div>
-         <!-- <div class="banner">
-            <svg viewBox="0 0 960 300">
-               <symbol id="s-text">
-                  <text text-anchor="middle" x="50%" y="65%">Step Artist</text>
-               </symbol>
-               <g class = "g-ants">
-                  <use xlink:href="#s-text" class="text-copy"></use>
-                  <use xlink:href="#s-text" class="text-copy"></use>
-                  <use xlink:href="#s-text" class="text-copy"></use>
-                  <use xlink:href="#s-text" class="text-copy"></use>
-                  <use xlink:href="#s-text" class="text-copy"></use>
-               </g>
-            </svg>
-         </div> -->
-            
-            <!-- <div>
-               <input type="color" name="head" id="color" v-bind:value="color" v-model="color">
-               <label for="head">Path Color</label>
-            </div> -->
-   
+
+            <!-- Modal for Menu -->
+            <div class="modal fade" id="menuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+               <div class="modal-dialog modalCenter">
+               <div class="modal-content">
+                  <div class="modal-body">
+                     <p>Current Line Settings: </p>
+                     <div>
+                        <label for="head">Color: </label>
+                        <input type="color" name="head" id="color" v-bind:value="color" v-model="color">
+                     </div>
+                     <br>
+                     <div>
+                        <label for="thickness">Thickness:  </label>
+                        <input name="thickness"@keyup.enter="enter" type="text">
+                     </div>
+                     <br>
+                     <div >
+                        <label for="opacity">Opacity:  </label>
+                        <input name="opacity" @keyup.enter="enter" type="text">
+                     </div>
+                     <br>
+                     **Can separate line settings into different modal: up to you guys.
+                     <hr>
+                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#restartImageModal" style="margin: 10px;">Restart Image</button>
+                     <br>
+                     <button @click="toStart"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#restartImageModal">Back to Start Menu</button>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" @click="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  </div>
+               </div>
+               </div>
+            </div>
 
             <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                <div class="modal-dialog">
@@ -116,7 +131,7 @@
    
             <!-- Modal for Restart Image -->
             <div class="modal fade" id="restartImageModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-               <div class="modal-dialog">
+               <div class="modal-dialog modalCenter">
                <div class="modal-content">
                   <div class="modal-body">
                      All progress will be lost on the current image. Are you still sure you want to proceed?
@@ -130,7 +145,7 @@
             </div>
             
             <!-- Modal for Final Image -->
-            <div class="modal fade" id="finalImage" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="finalImage" tabindex="-1" aria-labelledby="exampleModalLong" aria-hidden="true">
                <div class="modal-dialog">
                <div class="modal-content">
                   <div class="modal-header">
@@ -138,7 +153,7 @@
                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                   <div class="modal-body">
-                     <img v-bind:src="image_url">
+                     <img v-bind:src="image_url" style="width: 90%; margin-bottom: 5px;">
                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shareModal">
                         Share to Global Feed <i class="fa fa-paper-plane"></i>
                      </button>

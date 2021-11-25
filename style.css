@@ -142,3 +142,8 @@ svg {
   height: 100%;
   /* top: 102px; */
 }
+
+.modalCenter {
+  top: 50%!important;
+  transform: translateY(-50%)!important;
+}

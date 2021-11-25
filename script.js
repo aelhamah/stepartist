@@ -202,8 +202,8 @@ var resultView = new Vue({
       var context = canvas.getContext("2d");
 
       // color
-      context.fillStyle = "red";
-      console.log(context.fillStyle);
+      context.strokeStyle = this.color;
+      console.log(context.strokeStyle);
 
       // thickness
       var mySize = theLineWidth.value;
@@ -240,7 +240,7 @@ var resultView = new Vue({
       
         map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(this.recordButtonConstructor());
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(this.menuButtonConstructor());
-        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.endButtonConstructor());
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this.endButtonConstructor());
 
         // initialize thickness line
         var canvas = document.getElementById('drawingCanvas');

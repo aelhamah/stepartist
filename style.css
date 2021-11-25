@@ -1,7 +1,7 @@
-#map {
-    height: 80%;
-  }
-  
+/* #map {
+  height: 80vh;
+} */
+
 /* Optional: Makes the sample page fill the window. */
 html,
 body {
@@ -22,7 +22,7 @@ body {
   background-image: url(img/map.jpg);
   background-size: cover;
   position: absolute;
-  opacity: 0.50;
+  opacity: 0.5;
   content: "";
   top: 0px;
   right: 0px;
@@ -38,7 +38,7 @@ body {
   z-index: 5;
   width: 100%;
   height: 100px;
-  font-family: 'Fira Sans', sans-serif;
+  font-family: "Fira Sans", sans-serif;
   background-color: rgb(63, 63, 63);
   font-weight: 800;
   box-shadow: 10px 10px 8px #303030;
@@ -47,49 +47,51 @@ body {
 @import url(https://fonts.googleapis.com/css?family=Montserrat);
 
 svg {
-    display: block;
-    font: 10.5em 'Montserrat';
-    width: 100%;
-    height: 130%;
-    margin: 0 auto;
+  display: block;
+  font: 10.5em "Montserrat";
+  width: 100%;
+  height: 130%;
+  margin: 0 auto;
 }
 
 .text-copy {
-    fill: none;
-    stroke: white;
-    stroke-dasharray: 6% 29%;
-    stroke-width: 5px;
-    stroke-dashoffset: 0%;
-    animation: stroke-offset 5.5s infinite linear;
+  fill: none;
+  stroke: white;
+  stroke-dasharray: 6% 29%;
+  stroke-width: 5px;
+  stroke-dashoffset: 0%;
+  animation: stroke-offset 5.5s infinite linear;
 }
 
-.text-copy:nth-child(1){
-	stroke: #ffe600;
-	animation-delay: -1;
+.text-copy:nth-child(1) {
+  stroke: #ffe600;
+  animation-delay: -1;
 }
 
-.text-copy:nth-child(2){
-	stroke: #bd1616;
-	animation-delay: -2s;
+.text-copy:nth-child(2) {
+  stroke: #bd1616;
+  animation-delay: -2s;
 }
 
-.text-copy:nth-child(3){
-	stroke: #599c62;
-	animation-delay: -3s;
+.text-copy:nth-child(3) {
+  stroke: #599c62;
+  animation-delay: -3s;
 }
 
-.text-copy:nth-child(4){
-	stroke: #4da4c7;
-	animation-delay: -4s;
+.text-copy:nth-child(4) {
+  stroke: #4da4c7;
+  animation-delay: -4s;
 }
 
-.text-copy:nth-child(5){
-	stroke: #e6b3ec;
-	animation-delay: -5s;
+.text-copy:nth-child(5) {
+  stroke: #e6b3ec;
+  animation-delay: -5s;
 }
 
-@keyframes stroke-offset{
-	100% {stroke-dashoffset: -35%;}
+@keyframes stroke-offset {
+  100% {
+    stroke-dashoffset: -35%;
+  }
 }
 
 .buttons {
@@ -111,9 +113,9 @@ svg {
   height: 100px;
   margin: 20px;
   background-color: #bd1616;
-  font-family: 'Montserrat';
+  font-family: "Montserrat";
   font-size: 175%;
-  color:white;
+  color: white;
   font-weight: 800;
 }
 
@@ -138,5 +140,5 @@ svg {
 
 #map {
   height: 100%;
-  top: 102px;
+  /* top: 102px; */
 }

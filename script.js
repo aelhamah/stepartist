@@ -95,26 +95,25 @@ var resultView = new Vue({
     },
 
     recordingHandler: function() {
-      console.log("hello2?")
       let recordButton = document.getElementById('record_button');
       if (this.recording === true) {
         this.paths.push(JSON.parse(JSON.stringify(this.locations)));
         this.locations = [];
         
-        recordButton.className = 'btn btn-outline-danger'
+        recordButton.className = 'btn btn-outline-danger';
         $("#record_button span").text('Record');
         let recordToggle = document.getElementById("record_toggle");
-        recordToggle.className = 'fa fa-map-pin fa-pull-left'
+        recordToggle.className = 'fa fa-map-pin';
 
       } else {
         if (this.locations.length === 0) {
           this.locations.push(this.currentPos);
         }
 
-        recordButton.className = 'btn btn-danger'
+        recordButton.className = 'btn btn-danger';
         $("#record_button span").text('Recording');
         let recordToggle = document.getElementById("record_toggle");
-        recordToggle.className = 'fa fa-pause fa-pull-left'
+        recordToggle.className = 'fa fa-pause';
       }
       this.recording = !this.recording;
     },
@@ -138,23 +137,22 @@ var resultView = new Vue({
 
     recordButtonConstructor() {
       const recordButton = document.createElement("button");
-      recordButton.className = 'btn btn-outline-danger'
-      recordButton.id = 'record_button'
-      recordButton.setAttribute("aria-label", "Left Align")
-      recordButton.setAttribute("style", "margin-top: 8px; margin-right: 5px;")
-
-      let text = document.createElement("span");
-      text.innerHTML = "Record";
-      recordButton.appendChild(text);
+      recordButton.className = 'btn btn-outline-danger';
+      recordButton.id = 'record_button';
+      recordButton.setAttribute("aria-label", "Left Align");
+      recordButton.setAttribute("style", "margin-bottom: 20px; width: 60%; height: 8%; font-size: 250%; text-align: center");
 
       const recordToggle = document.createElement("i");
-      recordToggle.id = "record_toggle"
-      recordToggle.className = 'fa fa-map-pin fa-pull-left';
-      
+      recordToggle.id = "record_toggle";
+      recordToggle.className = 'fa fa-map-pin';
       recordToggle.setAttribute("aria-hidden", "true");
       recordButton.append(recordToggle);
 
-      recordButton.addEventListener("click", outsideRecordingHandler)
+      let text = document.createElement("span");
+      text.innerHTML = " Record";
+      recordButton.appendChild(text);
+
+      recordButton.addEventListener("click", outsideRecordingHandler);
 
       return recordButton;
     },
@@ -192,7 +190,7 @@ var resultView = new Vue({
       endButton.className = "btn btn-primary";
       endButton.setAttribute("data-bs-toggle", "modal");
       endButton.setAttribute("data-bs-target", "#finalImage");
-      endButton.setAttribute("style", "margin-top: 8px")
+      // endButton.setAttribute("style", "margin-top: 8px")
       endButton.addEventListener("click", outsideRenderHandler);
       
       let text = document.createElement("span");
@@ -206,7 +204,8 @@ var resultView = new Vue({
       // initialize map
       navigator.geolocation.getCurrentPosition(success => {
         const map = new google.maps.Map(document.getElementById("map"), {
-          zoomControl: true,
+          zoomControl: false,
+          disableDefaultUI: true,
           zoomControlOptions: {
             position: google.maps.ControlPosition.LEFT_CENTER,
           },
@@ -224,13 +223,13 @@ var resultView = new Vue({
         this.marker = marker;
 
         let buttonFlex = document.createElement("div");
-        buttonFlex.appendChild(this.recordButtonConstructor());
+        buttonFlex.className = "btn-group-vertical";
+        buttonFlex.appendChild(this.startMenuButtonConstructor());
+        buttonFlex.appendChild(this.restartButtonConstructor());
         buttonFlex.appendChild(this.endButtonConstructor());
       
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(buttonFlex);
-        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.startMenuButtonConstructor());
-        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.restartButtonConstructor());
-
+        map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(this.recordButtonConstructor());
+        map.controls[google.maps.ControlPosition.TOP_LEFT].push(buttonFlex);
       }, error => console.log(error),
       {enableHighAccuracy: true});
     },

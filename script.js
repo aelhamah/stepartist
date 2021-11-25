@@ -95,13 +95,26 @@ var resultView = new Vue({
     },
 
     recordingHandler: function() {
+      console.log("hello2?")
+      let recordButton = document.getElementById('record_button');
       if (this.recording === true) {
         this.paths.push(JSON.parse(JSON.stringify(this.locations)));
         this.locations = [];
+        
+        recordButton.className = 'btn btn-outline-danger'
+        $("#record_button span").text('Record');
+        let recordToggle = document.getElementById("record_toggle");
+        recordToggle.className = 'fa fa-map-pin fa-pull-left'
+
       } else {
         if (this.locations.length === 0) {
           this.locations.push(this.currentPos);
         }
+
+        recordButton.className = 'btn btn-danger'
+        $("#record_button span").text('Recording');
+        let recordToggle = document.getElementById("record_toggle");
+        recordToggle.className = 'fa fa-pause fa-pull-left'
       }
       this.recording = !this.recording;
     },
@@ -121,10 +134,82 @@ var resultView = new Vue({
       this.image_url = "https://maps.googleapis.com/maps/api/staticmap?size=390x844&maptype=satellite&key=AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E" + final_str;
     },
 
+    recordButtonConstructor() {
+      const recordButton = document.createElement("button");
+      recordButton.className = 'btn btn-outline-danger'
+      recordButton.id = 'record_button'
+      recordButton.setAttribute("aria-label", "Left Align")
+      recordButton.setAttribute("style", "margin-top: 8px")
+
+      let text = document.createElement("span");
+      text.innerHTML = "Record";
+      recordButton.appendChild(text);
+
+      const recordToggle = document.createElement("i");
+      recordToggle.id = "record_toggle"
+      recordToggle.className = 'fa fa-map-pin fa-pull-left';
+      
+      recordToggle.setAttribute("aria-hidden", "true");
+      recordButton.append(recordToggle);
+
+      recordButton.addEventListener("click", outsideRecordingHandler)
+
+      return recordButton;
+    },
+
+    startMenuButtonConstructor() {
+      let startButton = document.createElement("button");
+      startButton.className = "btn btn-primary";
+      startButton.setAttribute("data-bs-toggle", "modal");
+      startButton.setAttribute("data-bs-target", "#restartImageModal");
+      startButton.addEventListener("click", this.toStart());
+
+      let text = document.createElement("span");
+      text.innerHTML = "Back to Menu";
+      startButton.appendChild(text);
+
+      return startButton;
+    },
+
+    restartButtonConstructor() {
+      let restartButton = document.createElement("button");
+      restartButton.className = "btn btn-primary";
+      restartButton.setAttribute("data-bs-toggle", "modal");
+      restartButton.setAttribute("data-bs-target", "#restartImageModal");
+      
+      let text = document.createElement("span");
+      text.innerHTML = "Restart Image";
+      restartButton.appendChild(text);
+
+      return restartButton;
+    },
+
+    endButtonConstructor() {
+
+      let endButton = document.createElement("button");
+      endButton.className = "btn btn-primary";
+      endButton.setAttribute("data-bs-toggle", "modal");
+      endButton.setAttribute("data-bs-target", "#finalImage");
+      endButton.setAttribute("style", "margin-top: 8px")
+      endButton.addEventListener("click", outsideRenderHandler);
+      
+      let text = document.createElement("span");
+      text.innerHTML = "Render Final Image";
+      endButton.appendChild(text);
+
+      return endButton;
+    },
+
     createMap: async function() {
       // initialize map
       navigator.geolocation.getCurrentPosition(success => {
-        const map = new google.maps.Map(document.getElementById("map"));
+        const map = new google.maps.Map(document.getElementById("map"), {
+          zoomControl: true,
+          zoomControlOptions: {
+            position: google.maps.ControlPosition.LEFT_CENTER,
+          },
+          streetViewControl: false,
+        });
         map.setMapTypeId("satellite");
         map.setZoom(this.zoom);
         const initPos = {lat: success.coords.latitude, lng: success.coords.longitude};
@@ -135,6 +220,12 @@ var resultView = new Vue({
         const marker = new google.maps.Marker({ map, position: initPos });
         this.map = map;
         this.marker = marker;
+      
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.recordButtonConstructor());
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(this.endButtonConstructor());
+        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.startMenuButtonConstructor());
+        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.restartButtonConstructor());
+
       }, error => console.log(error),
       {enableHighAccuracy: true});
     },
@@ -172,3 +263,12 @@ var resultView = new Vue({
     this.updateMap();
   }
 })
+
+
+outsideRecordingHandler = function() {
+  resultView.recordingHandler();
+};
+
+outsideRenderHandler = function() {
+  resultView.renderEnd();
+};

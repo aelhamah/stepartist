@@ -53,12 +53,12 @@
             <!-- Modal for Menu -->
             <div class="modal fade" id="menuModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                <div class="modal-dialog modalCenter">
-               <div class="modal-content">
+               <div class="modal-content" @click="drawLine">
                   <div class="modal-body">
                      <p>Current Line Settings: </p>
                      <div>
                         <label for="head">Color: </label>
-                        <input @click="drawLine" type="color" name="head" id="color" v-bind:value="color" v-model="color">
+                        <input @input="drawLine" type="color" name="head" id="color" v-bind:value="color" v-model="color">
                      </div>
                      <br>
                      <div>

@@ -203,8 +203,7 @@ var resultView = new Vue({
 
       // color
       context.strokeStyle = this.color;
-      console.log(context.strokeStyle);
-
+      
       // thickness
       var mySize = theLineWidth.value;
       context.lineWidth = mySize;

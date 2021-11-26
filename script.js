@@ -14,7 +14,9 @@ var resultView = new Vue({
     paths: [], // array of lines (used for static maps)
     polylines: [], // array of Polyline objects (used for undo)
     // map options
-    color: "#FFFFFF",
+    color: "#FF0000",
+    thickness: 3,
+    opacity: 100,
     zoom: 18,
     image_url: '',
     api_key: 'AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E',
@@ -73,6 +75,33 @@ var resultView = new Vue({
       })
     },
 
+    decimalToHexString(number) {
+      // no negative hex numbers
+      if (number < 0) {
+        number = 0xFFFFFFFF + number + 1;
+      }
+
+      // rounding float
+      let number_int = parseInt(number);
+
+      if ((number - number_int) >= 0.5) {
+        number = Math.ceil(number);
+      }
+      else {
+        number = Math.floor(number);
+      }
+
+      // conversion
+      let hex = number.toString(16).toUpperCase();
+
+      // if missing leading 0
+      if (hex.length == 1) {
+        hex = "0" + hex;
+      }
+
+      return hex;
+    },
+
     shareHandler: function(e) {
       var url = "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/postart?secret=secret";
       var xhr = new XMLHttpRequest();
@@ -97,7 +126,12 @@ var resultView = new Vue({
     recordingHandler: function() {
       let recordButton = document.getElementById('record_button');
       if (this.recording === true) {
-        this.paths.push(JSON.parse(JSON.stringify(this.locations)));
+        
+        let locations_clone = JSON.parse(JSON.stringify(this.locations));
+        let locations_obj = {"locations": locations_clone, "color": this.color, "thickness": this.thickness, "opacity": (this.opacity / 100)}
+
+        this.paths.push(JSON.parse(JSON.stringify(locations_obj)));
+        
         this.locations = [];
         
         recordButton.className = 'btn btn-outline-danger';
@@ -124,10 +158,13 @@ var resultView = new Vue({
       }
       let final_str = "";
       this.paths.forEach(path => {
+        // handling opacity
+        let opacity = this.decimalToHexString(path["opacity"] * 255);
+
         // replace # with 0x in color
-        let color = this.color.replace("#", "0x");
-        let path_str = '&path=color:' + color + '|weight:5';
-        path.forEach(coord => {
+        let color = path["color"].replace("#", "0x");
+        let path_str = '&path=color:' + color + opacity + '|weight:' + path["thickness"] 
+        path["locations"].forEach(coord => {
           path_str += '|'+ coord.lat + ',' + coord.lng;
         });
         final_str += path_str;
@@ -188,31 +225,25 @@ var resultView = new Vue({
       return menuButton;
     },
 
-    draw(canvas, context) {
-      context.clearRect(0,0,canvas.width,canvas.height);
-      // next draw 
-      context.beginPath();
-      context.moveTo(10,75);
-      context.lineTo(290,75);
-      context.stroke();
-    },
-
     drawLine() {
       var canvas = document.getElementById('drawingCanvas');
       var context = canvas.getContext("2d");
 
       // color
       context.strokeStyle = this.color;
-      
+
       // thickness
-      var mySize = theLineWidth.value;
-      context.lineWidth = mySize;
+      context.lineWidth = this.thickness;
 
       // opacity
-      var myOpacity = theLineOpacity.value;
-      context.globalAlpha = myOpacity / 100.0;
+      context.globalAlpha = this.opacity / 100.0;
 
-      this.draw(canvas, context);
+      context.clearRect(0,0,canvas.width,canvas.height);
+      // next draw 
+      context.beginPath();
+      context.moveTo(10,75);
+      context.lineTo(290,75);
+      context.stroke();
     },
     
     createMap: async function() {
@@ -242,9 +273,7 @@ var resultView = new Vue({
         map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this.endButtonConstructor());
 
         // initialize thickness line
-        var canvas = document.getElementById('drawingCanvas');
-        var context = canvas.getContext("2d");
-        this.draw(canvas, context);
+        this.drawLine();
 
       }, error => console.log(error),
       {enableHighAccuracy: true});
@@ -264,8 +293,8 @@ var resultView = new Vue({
             path: this.locations,
             geodesic: true,
             strokeColor: this.color,
-            strokeOpacity: 1.0,
-            strokeWeight: 3,
+            strokeOpacity: this.opacity / 100,
+            strokeWeight: this.thickness,
           });
           path.setMap(this.map);
           this.polylines.push(path);

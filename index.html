@@ -60,17 +60,18 @@
                         <label for="head">Color: </label>
                         <input @input="drawLine" type="color" name="head" id="color" v-bind:value="color" v-model="color">
                      </div>
-                     <br>
+                     <br> 
                      <div>
                         <label for="thickness">Thickness:  </label>
-                        <input @input="drawLine"name="thickness" type="range" id="theLineWidth" min="2" max="40" 
-                        value="2" title="Line width">            
+                        <input @input="drawLine"name="thickness" type="range" id="theLineWidth" min="3" max="40" 
+                        value="2" title="Line width" v-model="thickness">
+                        <!-- {{this.thickness}}px          -->
                      </div>
                      <br>
                      <div >
                         <label for="opacity">Opacity:  </label>
                         <input @input="drawLine"name="opacity" type="range" id="theLineOpacity" min="0" max="100" 
-                        value="2" title="Line width"> 
+                        value="2" title="Line width" v-model="opacity"> 
                      </div>
                      <p>Preview Line:</p>
                      <br>

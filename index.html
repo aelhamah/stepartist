@@ -14,7 +14,6 @@
       <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E&v=weekly"></script>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" type="text/css" href="./style.css" />
-      <script src="./script.js"></script>
    </head>
    <style>
       /*img {
@@ -23,7 +22,7 @@
    </style>
    <body >
       <div id='app'>
-         <div v-if="start == false" class='main-menu'>
+         <div v-show="start === false" class='main-menu'>
             <div class="banner">
                <svg viewBox="0 0 960 300">
                   <symbol id="s-text">
@@ -178,7 +177,7 @@
                </div>
             </div>
       </div>
-      <div id="map"></div>   
+      <div id="map"></div> 
       <script src="script.js"></script>
    </body>
 </html>

@@ -2,8 +2,10 @@ var socialView = new Vue({
     el: '#socialfeed',
     data: {
       secret: 'secret',
+      unfiltered_posts: [],
       posts: [],
       timer: '',
+      searchString: "",
     },
     created () {
       this.getPosts();
@@ -28,6 +30,7 @@ var socialView = new Vue({
                 }
 
                 this.posts = data;
+                this.unfiltered_posts = data;
                 console.log(data);
             });
         },
@@ -49,6 +52,29 @@ var socialView = new Vue({
       
               fileLink.click()
             })
+        },
+
+        reset() {
+          this.posts = this.unfiltered_posts;
+        },
+
+        filter () {
+          // TODO: handle coop creator names
+          // checking if string is empty
+          if (!this.searchString.replace(/\s/g, '').length) {
+            this.reset();
+          }
+          else {
+            this.posts = this.unfiltered_posts;
+            let temp = [];
+            this.posts.forEach(post => {
+              if (post.hasOwnProperty("name") && post["name"] == this.searchString) {
+                temp.push(post);
+              }
+            });
+            this.posts = temp;
+          }
+          
         }
     },
   })

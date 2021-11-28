@@ -54,13 +54,14 @@
                <div class="modal-dialog modalCenter">
                <div class="modal-content" @click="drawLine">
                   <div class="modal-body">
-                     <h4>Your Shareable Id: {{drawingID}}</h4>
-                     <p>Current Line Settings: </p>
+                     <h5>Shareable DrawingId:</h5>
+                     <h4>{{drawingID}} <button @click="copyHandler"><i class="fa fa-clipboard" aria-hidden="true"></i></button></h4>
                      <!-- Text field for input for drawingID -->
                      <div class="form-group">
                         <label for="drawingID">Drawing ID</label>
-                        <input @keyup.enter="updateDrawingId" class="form-control" id="drawingID" placeholder="Enter drawing ID">
+                        <input @keyup.enter="updateDrawingId" class="form-control" id="drawingID" placeholder="Enter DrawingID">
                      </div>
+                     <p>Current Line Settings: </p>
                      <div>
                         <label for="head">Color: </label>
                         <input @input="drawLine" type="color" name="head" id="color" v-bind:value="color" v-model="color">

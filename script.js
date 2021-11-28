@@ -184,6 +184,10 @@ var resultView = new Vue({
       this.recording = !this.recording;
     },
 
+    copyHandler: function() {
+      navigator.clipboard.writeText(this.drawingID);
+    },
+
     getPathsFromServer: function() {
       fetch('https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/getPaths?id='+this.drawingID).then(response => {
         return response.json();

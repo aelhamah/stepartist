@@ -144,8 +144,8 @@ svg {
 }
 
 .modalCenter {
-  top: 50%!important;
-  transform: translateY(-50%)!important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
 }
 
 #theLineWidthSection {
@@ -155,8 +155,10 @@ svg {
   position: relative;
   z-index: 9999;
   cursor: pointer;
-  outline:1px solid;
+  outline: 1px solid;
   /*overflow: hidden;*/
 }
 
-canvas{border:1px solid}
+#drawingCanvas {
+  border: 1px solid;
+}

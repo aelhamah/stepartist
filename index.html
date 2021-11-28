@@ -54,7 +54,13 @@
                <div class="modal-dialog modalCenter">
                <div class="modal-content" @click="drawLine">
                   <div class="modal-body">
+                     <h4>Your Shareable Id: {{drawingID}}</h4>
                      <p>Current Line Settings: </p>
+                     <!-- Text field for input for drawingID -->
+                     <div class="form-group">
+                        <label for="drawingID">Drawing ID</label>
+                        <input @keyup.enter="updateDrawingId" class="form-control" id="drawingID" placeholder="Enter drawing ID">
+                     </div>
                      <div>
                         <label for="head">Color: </label>
                         <input @input="drawLine" type="color" name="head" id="color" v-bind:value="color" v-model="color">
@@ -76,7 +82,6 @@
                      <br>
                      <canvas id="drawingCanvas"></canvas>
                      <br>  
-                     **Can separate line settings into different modal: up to you guys.
                      <hr>
                      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#restartImageModal" style="margin: 10px;">Restart Image</button>
                      <br>
@@ -165,7 +170,7 @@
                      <br />
                      <p>Steps to Share to Twitter:</p>
                      <p>Step 1: Save the image</p>
-                     <button class="btn btn-primary" @click="download_image()">Download!</button>
+                     <button class="btn btn-primary" @click="download_image()">Download <i class="fa fa-download" aria-hidden="true"></i></button>
                      <br/>
                      <p>Step 2: Upload the image to the tweet!</p>
                      <button class= "btn btn-primary" @click="shareToTwit">Share to Twitter!</button>

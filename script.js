@@ -11,8 +11,9 @@ var resultView = new Vue({
     currentPos: undefined, 
     lastPos: undefined, // used to prevent duplicate coords
     locations: [], // coords of one line
-    paths: [], // array of lines (used for static maps)
+    paths: [], // array of line object -- coords and settings (used for static maps)
     polylines: [], // array of Polyline objects (used for undo)
+    drawingID: 0, // used to keep of drawing in db
     // map options
     color: "#FF0000",
     thickness: 3,
@@ -75,6 +76,13 @@ var resultView = new Vue({
       })
     },
 
+    updateDrawingId(e) {
+      this.drawingID = e.target.value;
+      this.getPathsFromServer();
+      // iterate through this.paths and draw them
+      
+    },
+
     decimalToHexString(number) {
       // no negative hex numbers
       if (number < 0) {
@@ -130,11 +138,35 @@ var resultView = new Vue({
         let locations_clone = JSON.parse(JSON.stringify(this.locations));
         let locations_obj = {"locations": locations_clone, "color": this.color, "thickness": this.thickness, "opacity": (this.opacity / 100)}
 
-        this.paths.push(JSON.parse(JSON.stringify(locations_obj)));
+        // this.paths.push(JSON.parse(JSON.stringify(locations_obj)));
+
+        // Send the path to the server
+        var url = "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/addPath";
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", url);
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4) {
+              console.log(xhr.status);
+              console.log(xhr.responseText);
+          }
+        };
+
+        var data = `{
+          "id": "${this.drawingID}",
+          "color": "${this.color}",
+          "thickness": ${this.thickness},
+          "opacity": ${this.opacity},
+          "locations": ${JSON.stringify(this.locations)}
+        }`;
+        // console.log(data);
+        xhr.send(data);
+        this.getPathsFromServer();
         
         this.locations = [];
         
-        recordButton.className = 'btn btn-outline-danger';
+        recordButton.className = 'btn btn-danger';
         $("#record_button span").text('   Record');
         let recordToggle = document.getElementById("record_toggle");
         recordToggle.className = 'fa fa-map-pin';
@@ -152,11 +184,32 @@ var resultView = new Vue({
       this.recording = !this.recording;
     },
 
+    getPathsFromServer: function() {
+      fetch('https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/getPaths?id='+this.drawingID).then(response => {
+        return response.json();
+      }).then(data => {
+        console.log(data);
+        this.paths = data;
+        for (var i = 0; i < this.paths.length; i++) {
+          const path = new google.maps.Polyline({
+            path: this.paths[i].locations,
+            geodesic: true,
+            strokeColor: this.paths[i].color,
+            strokeOpacity: this.paths[i].opacity / 100,
+            strokeWeight: this.paths[i].thickness,
+          });
+          // TODO: Check for duplicate paths
+          path.setMap(this.map);
+        }
+      });
+    },
+
     renderEnd: function() {
       if (this.recording) {
         this.recordingHandler();
       }
       let final_str = "";
+      this.getPathsFromServer();
       this.paths.forEach(path => {
         // handling opacity
         let opacity = this.decimalToHexString(path["opacity"] * 255);
@@ -174,7 +227,7 @@ var resultView = new Vue({
 
     recordButtonConstructor() {
       const recordButton = document.createElement("button");
-      recordButton.className = 'btn btn-outline-danger';
+      recordButton.className = 'btn btn-danger';
       recordButton.id = 'record_button';
       recordButton.setAttribute("aria-label", "Left Align");
       recordButton.setAttribute("style", "margin-bottom: 20px; width: 60%; height: 8%; font-size: 250%; text-align: center");
@@ -296,9 +349,12 @@ var resultView = new Vue({
             strokeOpacity: this.opacity / 100,
             strokeWeight: this.thickness,
           });
+
+          // TODO: post to the server with the drawing id
           path.setMap(this.map);
-          this.polylines.push(path);
+          // this.polylines.push(path);
         }
+        // console.log(this.locations)
       }, error => console.log(error),
       {enableHighAccuracy: true});
     }
@@ -306,6 +362,9 @@ var resultView = new Vue({
 
   created() {
     this.createMap();
+    fetch('https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/getDrawingId').then(res => res.json()).then(data => { 
+      this.drawingID = data.id;
+    });
   },
 
   updated() {

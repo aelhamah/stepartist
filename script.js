@@ -134,35 +134,23 @@ var resultView = new Vue({
     recordingHandler: function() {
       let recordButton = document.getElementById('record_button');
       if (this.recording === true) {
-        
-        let locations_clone = JSON.parse(JSON.stringify(this.locations));
-        let locations_obj = {"locations": locations_clone, "color": this.color, "thickness": this.thickness, "opacity": (this.opacity / 100)}
-
-        // this.paths.push(JSON.parse(JSON.stringify(locations_obj)));
-
-        // Send the path to the server
-        var url = "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/addPath";
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", url);
-        xhr.setRequestHeader("Accept", "application/json");
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4) {
-              console.log(xhr.status);
-              console.log(xhr.responseText);
-          }
+        let path = {
+          id: this.drawingID,
+          color: this.color,
+          thickness: this.thickness,
+          opacity: this.opacity,
+          locations: this.locations
         };
-
-        var data = `{
-          "id": "${this.drawingID}",
-          "color": "${this.color}",
-          "thickness": ${this.thickness},
-          "opacity": ${this.opacity},
-          "locations": ${JSON.stringify(this.locations)}
-        }`;
-        // console.log(data);
-        xhr.send(data);
-        this.getPathsFromServer();
+        this.postData(
+          "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/addPath",
+          path
+        )
+          .then(data => {
+            this.getPathsFromServer();
+          })
+          .catch(err => {
+            console.log(err);
+          });
         
         this.locations = [];
         
@@ -301,6 +289,23 @@ var resultView = new Vue({
       context.moveTo(10,75);
       context.lineTo(290,75);
       context.stroke();
+    },
+
+    postData: async function(url = '', data = {}) {
+      // Default options are marked with *
+      const response = await fetch(url, {
+        method: 'POST', // *GET, POST, PUT, DELETE, etc.
+        mode: 'cors', // no-cors, *cors, same-origin
+        //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+        credentials: 'same-origin', // include, *same-origin, omit
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data) // body data type must match "Content-Type" header
+      });
+      //console.log(response);
+      return response.status; // parses JSON response into native JavaScript objects
     },
     
     createMap: async function() {

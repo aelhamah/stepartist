@@ -54,42 +54,51 @@
                <div class="modal-dialog modalCenter">
                <div class="modal-content" @click="drawLine">
                   <div class="modal-body">
-                     <h5>Shareable DrawingId:</h5>
-                     <h4>{{drawingID}} <button @click="copyHandler"><i class="fa fa-clipboard" aria-hidden="true"></i></button></h4>
-                     <!-- Text field for input for drawingID -->
-                     <div class="form-group">
-                        <label for="drawingID">Drawing ID</label>
-                        <input @keyup.enter="updateDrawingId" class="form-control" id="drawingID" placeholder="Enter DrawingID">
-                     </div>
-                     <p>Current Line Settings: </p>
-                     <div>
-                        <label for="head">Color: </label>
-                        <input @input="drawLine" type="color" name="head" id="color" v-bind:value="color" v-model="color">
-                     </div>
-                     <br> 
-                     <div>
-                        <label for="thickness">Thickness:  </label>
-                        <input @input="drawLine"name="thickness" type="range" id="theLineWidth" min="3" max="40" 
-                        value="2" title="Line width" v-model="thickness">
-                        <!-- {{this.thickness}}px          -->
-                     </div>
-                     <br>
-                     <div >
-                        <label for="opacity">Opacity:  </label>
-                        <input @input="drawLine"name="opacity" type="range" id="theLineOpacity" min="0" max="100" 
-                        value="2" title="Line width" v-model="opacity"> 
-                     </div>
-                     <p>Preview Line:</p>
-                     <br>
-                     <canvas id="drawingCanvas"></canvas>
-                     <br>  
-                     <hr>
-                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#restartImageModal" style="margin: 10px;">Restart Image</button>
-                     <br>
-                     <button @click="toStart"class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#restartImageModal">Back to Start Menu</button>
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col">
+                          <h4>Draw with Friends</h4>
+                          <!-- <i class="fa fa-clipboard" aria-hidden="true"></i> -->
+                          <p>Drawing ID: <button @click="copyHandler">{{drawingID}}</button></p>
+                          <!-- Text field for input for drawingID -->
+                          <p>Load another drawing by ID:</p>
+                          <div class="form-group">
+                              <!-- <label for="drawingID">Drawing ID</label> -->
+                              <input @keyup.enter="updateDrawingId" class="form-control" id="drawingID" placeholder="Enter Drawing ID">
+                          </div>
+                        </div>
+                      </div>
+                      <hr>
+                      <div class="row">
+                        <h4>Current Line Settings</h4>
+                        <div class="col">
+                          <div style="text-align: left;">
+                              <label for="head">Color: </label>
+                              <input @input="drawLine" type="color" name="head" id="color" v-bind:value="color" v-model="color">
+                          </div>
+                          <br> 
+                          <div style="text-align: left;">
+                              <label for="thickness">Thickness:  </label>
+                              <input @input="drawLine"name="thickness" type="range" id="theLineWidth" min="3" max="40" 
+                              value="2" title="Line width" v-model="thickness">
+                              <!-- {{this.thickness}}px          -->
+                          </div>
+                          <br>
+                          <div style="text-align: left;">
+                              <label for="opacity">Opacity:  </label>
+                              <input @input="drawLine"name="opacity" type="range" id="theLineOpacity" min="0" max="100" 
+                              value="2" title="Line width" v-model="opacity"> 
+                          </div>
+                          <p>Preview Line:</p>
+                          <canvas id="drawingCanvas"></canvas>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="modal-footer">
-                     <button type="button" @click="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <div class="modal-footer" style="text-align: center;">
+                    <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#restartImageModal">Erase</button>
+                    <button @click="toStart" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#restartImageModal">Start Menu</button>
+                    <button type="button" @click="close" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                   </div>
                </div>
                </div>

@@ -121,6 +121,7 @@ svg {
 
 .modal-body {
   text-align: center;
+  overflow-y: auto;
 }
 
 .modal-body p {
@@ -144,8 +145,8 @@ svg {
 }
 
 .modalCenter {
-  top: 50% !important;
-  transform: translateY(-50%) !important;
+  /* top: 50% !important; */
+  /* transform: translateY(-50%) !important; */
 }
 
 #theLineWidthSection {

@@ -10,6 +10,7 @@
       <script src="https://cdn.jsdelivr.net/npm/vue"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
       <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link rel="stylesheet" type="text/css" href="./style.css" />
       <script src="./social.js"></script>
    </head>
@@ -52,7 +53,7 @@
                            <p v-if="post.name != ''" class="card-subtitle mb-2 text-muted">by {{ post.name }}</p>
                            <img class="card-img-top" v-bind:src="post.url" alt="step art">
                            <p>{{ post.description }}</p>
-                           <button class="btn btn-primary" @click="download_image()">Download</button>
+                           <button class="btn btn-primary" @click="download_image()"><i class="fa fa-download" aria-hidden="true"></i></button>
                         </div>
                      </div>
                   </div>

@@ -29,6 +29,8 @@ var socialView = new Vue({
                     }
                 }
 
+                // reverse data
+                data = data.reverse()
                 this.posts = data;
                 this.unfiltered_posts = data;
                 console.log(data);

@@ -126,11 +126,7 @@ var resultView = new Vue({
         this.postData(
           "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/addPath",
           path
-        ).then(data => {
-            this.getPathsFromServer();
-        }).catch(err => {
-          console.log(err);
-        });
+        )
         
         this.locations = [];
         
@@ -160,7 +156,6 @@ var resultView = new Vue({
       fetch('https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/getPaths?id='+this.drawingID).then(response => {
         return response.json();
       }).then(data => {
-        // console.log(data);
         this.paths = data;
         for (var i = 0; i < this.paths.length; i++) {
           const path = new google.maps.Polyline({
@@ -173,6 +168,21 @@ var resultView = new Vue({
           // TODO: Check for duplicate paths
           path.setMap(this.map);
         }
+
+        let final_str = "";
+        this.paths.forEach(path => {
+          // handling opacity
+          let opacity = this.decimalToHexString(parseInt((path["opacity"]/100) * 255));
+
+          // replace # with 0x in color
+          let color = path["color"].replace("#", "0x");
+          let path_str = '&path=color:' + color + opacity + '|weight:' + path["thickness"] 
+          path["locations"].forEach(coord => {
+            path_str += '|'+ coord.lat + ',' + coord.lng;
+          });
+          final_str += path_str;
+        });
+        this.image_url = "https://maps.googleapis.com/maps/api/staticmap?size=390x844&maptype=satellite&key=AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E" + final_str;
       });
     },
 
@@ -180,22 +190,9 @@ var resultView = new Vue({
       // console.log(this.color);
       if (this.recording) {
         this.recordingHandler();
+      } else {
+        this.getPathsFromServer()
       }
-      let final_str = "";
-      this.getPathsFromServer();
-      this.paths.forEach(path => {
-        // handling opacity
-        let opacity = this.decimalToHexString(parseInt((path["opacity"]/100) * 255));
-
-        // replace # with 0x in color
-        let color = path["color"].replace("#", "0x");
-        let path_str = '&path=color:' + color + opacity + '|weight:' + path["thickness"] 
-        path["locations"].forEach(coord => {
-          path_str += '|'+ coord.lat + ',' + coord.lng;
-        });
-        final_str += path_str;
-      });
-      this.image_url = "https://maps.googleapis.com/maps/api/staticmap?size=390x844&maptype=satellite&key=AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E" + final_str;
     },
 
     recordButtonConstructor() {
@@ -272,9 +269,9 @@ var resultView = new Vue({
       context.stroke();
     },
 
-    postData: async function(url = '', data = {}) {
+    postData:  function(url = '', data = {}) {
       // Default options are marked with *
-      const response = await fetch(url, {
+      const response = fetch(url, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         mode: 'cors', // no-cors, *cors, same-origin
         //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -284,7 +281,10 @@ var resultView = new Vue({
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(data) // body data type must match "Content-Type" header
+      }).then(() => {
+        this.getPathsFromServer();
       });
+      
 
       // console.log(data);
       //console.log(response);
@@ -328,6 +328,7 @@ var resultView = new Vue({
       // track user
       navigator.geolocation.watchPosition(success => {
         const currentPos = {lat: success.coords.latitude, lng: success.coords.longitude};
+        console.log(currentPos);
         this.currentPos = JSON.parse(JSON.stringify(currentPos));
         this.marker.setPosition(this.currentPos);
         this.map.panTo(this.currentPos);

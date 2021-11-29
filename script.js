@@ -21,7 +21,7 @@ var resultView = new Vue({
     zoom: 18,
     image_url: '',
     api_key: 'AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E',
-    public_key: 'AIzaSyDcwGyRxRbcNGWOFQVT87A1mkxEOfm8t0w'
+    // public_key: 'AIzaSyDcwGyRxRbcNGWOFQVT87A1mkxEOfm8t0w'
   },
   methods: {
     restartImage: function() {
@@ -84,30 +84,8 @@ var resultView = new Vue({
     },
 
     decimalToHexString(number) {
-      // no negative hex numbers
-      if (number < 0) {
-        number = 0xFFFFFFFF + number + 1;
-      }
-
-      // rounding float
-      let number_int = parseInt(number);
-
-      if ((number - number_int) >= 0.5) {
-        number = Math.ceil(number);
-      }
-      else {
-        number = Math.floor(number);
-      }
-
-      // conversion
-      let hex = number.toString(16).toUpperCase();
-
-      // if missing leading 0
-      if (hex.length == 1) {
-        hex = "0" + hex;
-      }
-
-      return hex;
+      // conver the rgb value to hex
+      return hex = number.toString(16);
     },
 
     shareHandler: function(e) {
@@ -144,13 +122,11 @@ var resultView = new Vue({
         this.postData(
           "https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/addPath",
           path
-        )
-          .then(data => {
+        ).then(data => {
             this.getPathsFromServer();
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        }).catch(err => {
+          console.log(err);
+        });
         
         this.locations = [];
         
@@ -180,7 +156,7 @@ var resultView = new Vue({
       fetch('https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/getPaths?id='+this.drawingID).then(response => {
         return response.json();
       }).then(data => {
-        console.log(data);
+        // console.log(data);
         this.paths = data;
         for (var i = 0; i < this.paths.length; i++) {
           const path = new google.maps.Polyline({
@@ -197,6 +173,7 @@ var resultView = new Vue({
     },
 
     renderEnd: function() {
+      // console.log(this.color);
       if (this.recording) {
         this.recordingHandler();
       }
@@ -204,10 +181,11 @@ var resultView = new Vue({
       this.getPathsFromServer();
       this.paths.forEach(path => {
         // handling opacity
-        let opacity = this.decimalToHexString(path["opacity"] * 255);
+        let opacity = this.decimalToHexString(parseInt((path["opacity"]/100) * 255));
 
         // replace # with 0x in color
         let color = path["color"].replace("#", "0x");
+        console.log(opacity);
         let path_str = '&path=color:' + color + opacity + '|weight:' + path["thickness"] 
         path["locations"].forEach(coord => {
           path_str += '|'+ coord.lat + ',' + coord.lng;
@@ -304,6 +282,8 @@ var resultView = new Vue({
         },
         body: JSON.stringify(data) // body data type must match "Content-Type" header
       });
+
+      // console.log(data);
       //console.log(response);
       return response.status; // parses JSON response into native JavaScript objects
     },

@@ -19,7 +19,7 @@ body {
 }
 
 .main-menu::before {
-  background-image: url(img/map.jpg);
+  background-image: url(../img/map.jpg);
   background-size: cover;
   position: absolute;
   opacity: 0.5;

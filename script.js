@@ -3,6 +3,7 @@ var resultView = new Vue({
   data: {
     // states
     start: false,
+    tutorial: false,
     recording: false,
     backToStart: false,
     // record keeping logic
@@ -41,6 +42,12 @@ var resultView = new Vue({
     },
     startGame: function() {
       this.start = true;
+    },
+    openTutorial:function() {
+      this.tutorial = true;
+    },
+    closeTutorial: function() {
+      this.tutorial = false;
     },
     toStart: function(){
       this.backToStart = true;

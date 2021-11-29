@@ -40,12 +40,21 @@
          
             <div class="buttons">
                <button @click="startGame" type="button" class="btn" id="start">Start Drawing</button>
-               <button id="tutorial" type="button" class="btn">Tutorial</button>
+               <button @click="openTutorial" id="tutorial" type="button" class="btn">Tutorial</button>
                <a href="social.html"><button href="social.html" id="social" type="button" class="btn">Social</button></a>
 
             </div>
-            <div class="tutorial">
-
+            <div v-show="tutorial == true" class="tutorial">
+               <div>
+                  <img style="margin-top: 110px;" src="img/tutorial_1.png">
+               </div>
+               <div>
+                  <img src="img/tutorial_2.png">
+               </div>
+               <div>
+                  <img src="img/tutorial_3.png">
+               </div>
+               <button @click="closeTutorial" id="tutorial" type="button" class="btn">Close</button>
             </div>
          </div>
 

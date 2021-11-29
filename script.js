@@ -34,6 +34,10 @@ var resultView = new Vue({
       this.polylines.forEach(poly => {
         poly.setMap(null);
       })
+      // get new drawingID
+      fetch('https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/getDrawingId').then(res => res.json()).then(data => { 
+        this.drawingID = data.id;
+      });
     },
     startGame: function() {
       this.start = true;
@@ -185,7 +189,6 @@ var resultView = new Vue({
 
         // replace # with 0x in color
         let color = path["color"].replace("#", "0x");
-        console.log(opacity);
         let path_str = '&path=color:' + color + opacity + '|weight:' + path["thickness"] 
         path["locations"].forEach(coord => {
           path_str += '|'+ coord.lat + ',' + coord.lng;
@@ -341,7 +344,7 @@ var resultView = new Vue({
 
           // TODO: post to the server with the drawing id
           path.setMap(this.map);
-          // this.polylines.push(path);
+          this.polylines.push(path);
         }
         // console.log(this.locations)
       }, error => console.log(error),

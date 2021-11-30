@@ -35,10 +35,7 @@ var resultView = new Vue({
       for (let i = 0; i < this.polylines.length; i++) {
         this.polylines[i].setMap(null);
       }
-      // this.polylines.forEach(poly => {
-      //   poly.setMap(null);
-      // })
-      // get new drawingID
+
       fetch('https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/getDrawingId').then(res => res.json()).then(data => { 
         this.drawingID = data.id;
       });
@@ -160,6 +157,7 @@ var resultView = new Vue({
 
     copyHandler: function() {
       navigator.clipboard.writeText(this.drawingID);
+      alert('Copied to clipboard');
     },
 
     getPathsFromServer: function() {

@@ -73,7 +73,12 @@
                           <p>Load another drawing by ID:</p>
                           <div class="form-group">
                               <!-- <label for="drawingID">Drawing ID</label> -->
-                              <input @keyup.enter="updateDrawingId" class="form-control" id="drawingID" placeholder="Enter Drawing ID">
+                              <form>
+                                 <!-- <input @keyup.enter="updateDrawingId" class="form-control" id="drawingID" placeholder="Enter Drawing ID"> -->
+                                 <input class="form-control" id="drawingID" placeholder="Enter Drawing ID"> 
+                                 <button type="button" @click.prevent="updateDrawingId" class="btn btn-primary">Submit</button>
+                              </form>
+                              
                           </div>
                         </div>
                       </div>

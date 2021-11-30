@@ -88,7 +88,7 @@ var resultView = new Vue({
     },
 
     updateDrawingId(e) {
-      this.drawingID = e.target.value;
+      this.drawingID = e.target.form.drawingID.value;
       this.getPathsFromServer();
       // iterate through this.paths and draw them
       
@@ -156,8 +156,10 @@ var resultView = new Vue({
     },
 
     copyHandler: function() {
-      navigator.clipboard.writeText(this.drawingID);
-      alert('Copied to clipboard');
+      navigator.clipboard.writeText(this.drawingID).then(function() {
+        alert('Copied to clipboard')
+      });
+      // alert('Copied to clipboard');
     },
 
     getPathsFromServer: function() {

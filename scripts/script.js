@@ -1,3 +1,6 @@
+let global_map;
+let global_polylines = [];
+
 var resultView = new Vue({
   el: '#app',
   data: {
@@ -32,9 +35,12 @@ var resultView = new Vue({
         this.backToStart = false;
         this.start = false;
       }
-      this.polylines.forEach(poly => {
-        poly.setMap(null);
-      })
+      for (let i = 0; i < global_polylines.length; i++) {
+        global_polylines[i].setMap(null);
+      }
+      // global_polylines.forEach(poly => {
+      //   poly.setMap(null);
+      // })
       // get new drawingID
       fetch('https://us-east-1.aws.webhooks.mongodb-realm.com/api/client/v2.0/app/stepartist-kagkq/service/stepartistapi/incoming_webhook/getDrawingId').then(res => res.json()).then(data => { 
         this.drawingID = data.id;
@@ -173,7 +179,8 @@ var resultView = new Vue({
             strokeWeight: this.paths[i].thickness,
           });
           // TODO: Check for duplicate paths
-          path.setMap(this.map);
+          global_polylines.push(path);
+          global_polylines[global_polylines.length - 1].setMap(global_map);
         }
 
         let final_str = "";
@@ -301,7 +308,7 @@ var resultView = new Vue({
     createMap: async function() {
       // initialize map
       navigator.geolocation.getCurrentPosition(success => {
-        const map = new google.maps.Map(document.getElementById("map"), {
+        map = new google.maps.Map(document.getElementById("map"), {
           zoomControl: false,
           disableDefaultUI: true,
           zoomControlOptions: {
@@ -317,7 +324,7 @@ var resultView = new Vue({
         map.panTo(initPos);
         map.setTilt(0);
         const marker = new google.maps.Marker({ map, position: initPos });
-        this.map = map;
+        global_map = map;
         this.marker = marker;
       
         map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(this.recordButtonConstructor());
@@ -338,11 +345,11 @@ var resultView = new Vue({
         console.log(currentPos);
         this.currentPos = JSON.parse(JSON.stringify(currentPos));
         this.marker.setPosition(this.currentPos);
-        this.map.panTo(this.currentPos);
+        global_map.panTo(this.currentPos);
         if (this.recording && (JSON.stringify(this.currentPos) !== JSON.stringify(this.lastPos))) {
           this.lastPos = this.currentPos;
           this.locations.push(this.currentPos);
-          const path = new google.maps.Polyline({
+          path = new google.maps.Polyline({
             path: this.locations,
             geodesic: true,
             strokeColor: this.color,
@@ -350,9 +357,9 @@ var resultView = new Vue({
             strokeWeight: this.thickness,
           });
 
-          // TODO: post to the server with the drawing id
-          path.setMap(this.map);
-          this.polylines.push(path);
+
+          global_polylines.push(path);
+          global_polylines[global_polylines.length - 1].setMap(global_map);
         }
         // console.log(this.locations)
       }, error => console.log(error),

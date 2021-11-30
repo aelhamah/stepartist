@@ -1,6 +1,3 @@
-let global_map;
-let global_polylines = [];
-
 var resultView = new Vue({
   el: '#app',
   data: {
@@ -35,10 +32,10 @@ var resultView = new Vue({
         this.backToStart = false;
         this.start = false;
       }
-      for (let i = 0; i < global_polylines.length; i++) {
-        global_polylines[i].setMap(null);
+      for (let i = 0; i < this.polylines.length; i++) {
+        this.polylines[i].setMap(null);
       }
-      // global_polylines.forEach(poly => {
+      // this.polylines.forEach(poly => {
       //   poly.setMap(null);
       // })
       // get new drawingID
@@ -179,8 +176,8 @@ var resultView = new Vue({
             strokeWeight: this.paths[i].thickness,
           });
           // TODO: Check for duplicate paths
-          global_polylines.push(path);
-          global_polylines[global_polylines.length - 1].setMap(global_map);
+          this.polylines.push(path);
+          this.polylines[this.polylines.length - 1].setMap(this.map);
         }
 
         let final_str = "";
@@ -324,7 +321,7 @@ var resultView = new Vue({
         map.panTo(initPos);
         map.setTilt(0);
         const marker = new google.maps.Marker({ map, position: initPos });
-        global_map = map;
+        this.map = map;
         this.marker = marker;
       
         map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(this.recordButtonConstructor());
@@ -345,7 +342,7 @@ var resultView = new Vue({
         console.log(currentPos);
         this.currentPos = JSON.parse(JSON.stringify(currentPos));
         this.marker.setPosition(this.currentPos);
-        global_map.panTo(this.currentPos);
+        this.map.panTo(this.currentPos);
         if (this.recording && (JSON.stringify(this.currentPos) !== JSON.stringify(this.lastPos))) {
           this.lastPos = this.currentPos;
           this.locations.push(this.currentPos);
@@ -357,9 +354,8 @@ var resultView = new Vue({
             strokeWeight: this.thickness,
           });
 
-
-          global_polylines.push(path);
-          global_polylines[global_polylines.length - 1].setMap(global_map);
+          this.polylines.push(path);
+          this.polylines[this.polylines.length - 1].setMap(this.map);
         }
         // console.log(this.locations)
       }, error => console.log(error),

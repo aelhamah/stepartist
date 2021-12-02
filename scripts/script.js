@@ -87,11 +87,9 @@ var resultView = new Vue({
       })
     },
 
-    updateDrawingId(e) {
-      this.drawingID = e.target.form.drawingID.value;
-      this.getPathsFromServer();
-      // iterate through this.paths and draw them
-      
+    updateDrawingId() {
+      this.drawingID = document.getElementById('drawingID_input').value
+      this.getPathsFromServer()
     },
 
     decimalToHexString(number) {

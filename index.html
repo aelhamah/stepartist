@@ -71,15 +71,14 @@
                           <p>Drawing ID: {{drawingID}} <button @click="copyHandler"><i class="fa fa-clipboard" aria-hidden="true"></i></button></p>
                           <!-- Text field for input for drawingID -->
                           <p>Load another drawing by ID:</p>
-                          <div class="form-group">
-                              <!-- <label for="drawingID">Drawing ID</label> -->
-                              <form>
-                                 <!-- <input @keyup.enter="updateDrawingId" class="form-control" id="drawingID" placeholder="Enter Drawing ID"> -->
-                                 <input class="form-control" id="drawingID" placeholder="Enter Drawing ID"> 
-                                 <button type="button" @click.prevent="updateDrawingId" class="btn btn-primary">Submit</button>
-                              </form>
-                              
+                          <div class="container">
+                              <div class="d-flex flex-row">
+                                 <!-- <label for="drawingID">Drawing ID</label> -->
+                                    <input @keyup.enter="updateDrawingId" class="form-control" id="drawingID_input" placeholder="Enter Drawing ID">
+                                    <button type="button" @click.prevent="updateDrawingId" class="btn btn-primary">Submit</button>   
+                              </div>
                           </div>
+                          
                         </div>
                       </div>
                       <hr>

@@ -45,18 +45,19 @@
                <a href="social/"><button href="social/" id="social" type="button" class="btn">Social</button></a>
 
             </div>
-            <div v-show="tutorial == true" class="tutorial">
-               <div>
-                  <img style="margin-top: 110px;" src="img/tutorial_1.png">
-               </div>
-               <div>
-                  <img src="img/tutorial_2.png">
-               </div>
-               <div>
-                  <img src="img/tutorial_3.png">
-               </div>
-               <button @click="closeTutorial" id="tutorial" type="button" class="btn">Close</button>
+         </div>
+
+         <div v-show="tutorial == true" class="tutorial">
+            <div>
+               <img style="margin-top: 110px;" src="img/tutorial_1.png">
             </div>
+            <div>
+               <img src="img/tutorial_2.png">
+            </div>
+            <div>
+               <img src="img/tutorial_3.png">
+            </div>
+            <button @click="closeTutorial" id="tutorial" type="button" class="btn">Close</button>
          </div>
 
             <!-- Modal for Menu -->

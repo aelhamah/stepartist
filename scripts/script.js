@@ -273,6 +273,22 @@ var resultView = new Vue({
       return centerButton;
     },
 
+    helpButtonConstructor() {
+
+      let helpButton = document.createElement("button");
+      helpButton.className = "btn btn-light";
+      helpButton.setAttribute("style", "padding: 5px;; margin: 5px; height: 45px; width: 45px");
+      
+      helpButton.addEventListener("click", outsideOpenTutorial)
+      
+      let img = document.createElement("img");
+      img.setAttribute("src", "img/help.png");
+      img.setAttribute("style", "margin-bottom: 20px; height: 100%; width: 100%; border-radius: 10px;")
+      helpButton.appendChild(img);
+
+      return helpButton;
+    },
+
     drawLine() {
       var canvas = document.getElementById('drawingCanvas');
       var context = canvas.getContext("2d");
@@ -342,6 +358,7 @@ var resultView = new Vue({
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(this.menuButtonConstructor());
         map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this.endButtonConstructor());
         map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.centerButtonConstructor());
+        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.helpButtonConstructor());
 
         // initialize thickness line
         this.drawLine();
@@ -388,6 +405,10 @@ var resultView = new Vue({
     this.updateMap();
   }
 })
+
+outsideOpenTutorial = function() {
+  resultView.openTutorial();
+}
 
 outsideGetMap = function() {
   resultView.map.panTo(resultView.currentPos);

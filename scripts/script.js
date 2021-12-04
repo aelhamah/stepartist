@@ -261,7 +261,7 @@ var resultView = new Vue({
 
       let centerButton = document.createElement("button");
       centerButton.className = "btn btn-light";
-      centerButton.setAttribute("style", "margin: 5px; height: 8%;");
+      centerButton.setAttribute("style", "margin: 5px; height: 8%; width: 8%;");
       
       centerButton.addEventListener("click", outsideGetMap)
       

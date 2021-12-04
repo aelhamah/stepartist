@@ -261,7 +261,7 @@ var resultView = new Vue({
 
       let centerButton = document.createElement("button");
       centerButton.className = "btn btn-light";
-      centerButton.setAttribute("style", "margin: 5px; height: 8%; width: 8%;");
+      centerButton.setAttribute("style", "margin: 5px; height: 45px; width: 45px");
       
       centerButton.addEventListener("click", outsideGetMap)
       
@@ -341,7 +341,7 @@ var resultView = new Vue({
         map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(this.recordButtonConstructor());
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(this.menuButtonConstructor());
         map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this.endButtonConstructor());
-        // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.centerButtonConstructor());
+        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.centerButtonConstructor());
 
         // initialize thickness line
         this.drawLine();

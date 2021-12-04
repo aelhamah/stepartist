@@ -247,11 +247,11 @@ var resultView = new Vue({
       menuButton.className = "btn btn-light";
       menuButton.setAttribute("data-bs-toggle", "modal");
       menuButton.setAttribute("data-bs-target", "#menuModal");
-      menuButton.setAttribute("style", "margin: 5px;")
+      menuButton.setAttribute("style", "padding: 5px; height: 40px; width: 40px; margin-left: 10px; margin-bottom: 5px; margin-top: 5px;")
       
       let img = document.createElement("img");
       img.setAttribute("src", "img/Hamburger_icon.png");
-      img.setAttribute("style", "height: 20px; width: 20px; border-radius: 10px;")
+      img.setAttribute("style", "height: 100%; width: 100%; border-radius: 10px;")
       menuButton.appendChild(img);
 
       return menuButton;
@@ -320,10 +320,10 @@ var resultView = new Vue({
       // initialize map
       navigator.geolocation.getCurrentPosition(success => {
         map = new google.maps.Map(document.getElementById("map"), {
-          zoomControl: false,
+          zoomControl: true, 
           disableDefaultUI: true,
           zoomControlOptions: {
-            position: google.maps.ControlPosition.LEFT_CENTER,
+            position: google.maps.ControlPosition.LEFT_TOP,
           },
           streetViewControl: false,
         });

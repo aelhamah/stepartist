@@ -191,7 +191,7 @@ var resultView = new Vue({
           });
           final_str += path_str;
         });
-        this.image_url = "https://maps.googleapis.com/maps/api/staticmap?size=390x844&maptype=satellite&key=AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E" + final_str;
+        this.image_url = "https://maps.googleapis.com/maps/api/staticmap?size=390x844&maptype=satellite&center=" + this.map.getCenter().lat() + "," + this.map.getCenter().lng() + "&zoom=" + this.map.getZoom() + "&key=AIzaSyAb-WxU0LPAk9xKev3DjNGxC90rmJH9V0E" + final_str;
       });
     },
 
@@ -247,7 +247,7 @@ var resultView = new Vue({
       menuButton.className = "btn btn-light";
       menuButton.setAttribute("data-bs-toggle", "modal");
       menuButton.setAttribute("data-bs-target", "#menuModal");
-      menuButton.setAttribute("style", "margin: 5px")
+      menuButton.setAttribute("style", "margin: 5px;")
       
       let img = document.createElement("img");
       img.setAttribute("src", "img/Hamburger_icon.png");
@@ -255,6 +255,22 @@ var resultView = new Vue({
       menuButton.appendChild(img);
 
       return menuButton;
+    },
+
+    centerButtonConstructor() {
+
+      let centerButton = document.createElement("button");
+      centerButton.className = "btn btn-light";
+      centerButton.setAttribute("style", "margin: 5px; height: 8%;");
+      
+      centerButton.addEventListener("click", outsideGetMap)
+      
+      let img = document.createElement("img");
+      img.setAttribute("src", "img/center_map.png");
+      img.setAttribute("style", "margin-bottom: 20px; height: 100%; width: 100%; border-radius: 10px;")
+      centerButton.appendChild(img);
+
+      return centerButton;
     },
 
     drawLine() {
@@ -325,6 +341,7 @@ var resultView = new Vue({
         map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(this.recordButtonConstructor());
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(this.menuButtonConstructor());
         map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this.endButtonConstructor());
+        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.centerButtonConstructor());
 
         // initialize thickness line
         this.drawLine();
@@ -340,7 +357,6 @@ var resultView = new Vue({
         console.log(currentPos);
         this.currentPos = JSON.parse(JSON.stringify(currentPos));
         this.marker.setPosition(this.currentPos);
-        this.map.panTo(this.currentPos);
         if (this.recording && (JSON.stringify(this.currentPos) !== JSON.stringify(this.lastPos))) {
           this.lastPos = this.currentPos;
           this.locations.push(this.currentPos);
@@ -373,6 +389,9 @@ var resultView = new Vue({
   }
 })
 
+outsideGetMap = function() {
+  resultView.map.panTo(resultView.currentPos);
+}
 
 outsideRecordingHandler = function() {
   resultView.recordingHandler();

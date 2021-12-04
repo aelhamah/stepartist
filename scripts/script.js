@@ -341,7 +341,7 @@ var resultView = new Vue({
         map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(this.recordButtonConstructor());
         map.controls[google.maps.ControlPosition.TOP_LEFT].push(this.menuButtonConstructor());
         map.controls[google.maps.ControlPosition.TOP_RIGHT].push(this.endButtonConstructor());
-        map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.centerButtonConstructor());
+        // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(this.centerButtonConstructor());
 
         // initialize thickness line
         this.drawLine();

@@ -46,9 +46,8 @@
          <div style="padding-top: 150px;">
             <div class = "container mt-4">
                <div class="row">
-                  <div v-for="post in posts" class="col-auto mb-3">
-                    <div v-if="post.name != 'Wassup'">
-                      <div  class="card mb-3" style="width: 18rem; padding-right: 10rem;">
+                  <div v-for="post in posts && post.name != 'Yo'" class="col-auto mb-3">
+                     <div  class="card mb-3" style="width: 18rem; padding-right: 10rem;">
                         <div class="card-body">
                            <h5 class="card-title">{{ post.title }}</h5>
                            <p v-if="post.name != ''" class="card-subtitle mb-2 text-muted">by {{ post.name }}</p>
@@ -57,7 +56,6 @@
                            <button class="btn btn-primary" @click="download_image()"><i class="fa fa-download" aria-hidden="true"></i></button>
                         </div>
                      </div>
-                    </div>
                   </div>
                </div>
             </div>

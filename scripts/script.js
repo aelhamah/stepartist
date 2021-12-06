@@ -232,6 +232,7 @@ var resultView = new Vue({
       endButton.className = "btn btn-primary";
       endButton.setAttribute("data-bs-toggle", "modal");
       endButton.setAttribute("data-bs-target", "#finalImage");
+      endButton.setAttribute("style", "margin-right: 10px; margin-top: 10px;")
       endButton.addEventListener("click", outsideRenderHandler);
       
       let text = document.createElement("span");
@@ -247,7 +248,7 @@ var resultView = new Vue({
       menuButton.className = "btn btn-light";
       menuButton.setAttribute("data-bs-toggle", "modal");
       menuButton.setAttribute("data-bs-target", "#menuModal");
-      menuButton.setAttribute("style", "padding: 5px; height: 40px; width: 40px; margin-left: 10px; margin-bottom: 5px; margin-top: 5px;")
+      menuButton.setAttribute("style", "padding: 5px; height: 40px; width: 40px; margin-left: 10px; margin-bottom: 5px; margin-top: 10px;")
       
       let img = document.createElement("img");
       img.setAttribute("src", "img/Hamburger_icon.png");

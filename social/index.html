@@ -52,7 +52,7 @@
                            <h5 class="card-title">{{ post.title }}</h5>
                            <p v-if="post.name != ''" class="card-subtitle mb-2 text-muted">by {{ post.name }}</p>
                            <img class="card-img-top" v-bind:src="post.url" alt="step art">
-                           <!-- <p>{{ post.description }}</p> -->
+                           <p v-if="post.name != 'Yo'">{{ post.description }}</p>
                            <button class="btn btn-primary" @click="download_image()"><i class="fa fa-download" aria-hidden="true"></i></button>
                         </div>
                      </div>

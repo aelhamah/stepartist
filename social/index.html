@@ -32,19 +32,19 @@
                </g>
             </svg>
          </div>
-            <div class="soc-btn">
+            <div style="position: absolute; margin-top: 120px; margin-left: 15px;">
                <!-- refresh button that calls get art-->
-               <button class="btn btn-primary" id="refresh" v-on:click="getPosts" style="margin-bottom: 10px;">Refresh</button>
-               <a href="../"><button class="btn btn-primary" id="return">Main Menu</button></a>
+               <a href="../"><button class="btn btn-primary" id="return">Start Menu</button></a>
+               <button class="btn btn-primary" id="refresh" v-on:click="getPosts">Refresh</button>
             </div>
          
-         <div style="position: absolute; margin-top: 130px; margin-left: 100px">
+         <div style="position: absolute; margin-top: 180px; margin-left: 15px;">
             <label for="search">Search for creators:</label>
             <input id="search"type="text" v-model = "searchString" @keyup.enter="filter"></input>
             <button class="btn btn-success" @click="reset">Reset to All</button>
          </div>
          
-         <div style="padding-top: 150px;">
+         <div style="padding-top: 240px;">
             <div class = "container mt-4">
                <div class="row">
                   <div v-for="post in posts" class="col-auto mb-3">
